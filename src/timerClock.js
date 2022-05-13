@@ -267,7 +267,7 @@ class TimeirClock {
     width = 5,
     pointStep = 30.5,
     stayBack = 0,
-    handsOff = 10
+    handsOff = 10,
   }) {
     ctx.beginPath();
     const previousColor = ctx.strokeStyle;
@@ -301,11 +301,11 @@ class TimeirClock {
     const moveY = clockBoarderCircleY - sin * stayBack;
     this.ctx.moveTo(moveX, moveY);
     let floatStep = pointStep - ~~pointStep;
-    const sizeOfDot = clockBoarderMiniRadius * Math.PI * 2 / 60;
-      
+    const sizeOfDot = (clockBoarderMiniRadius * Math.PI * 2) / 60;
+    console.log(floatStep + "", (floatStep = floatStep * sizeOfDot) + "");
     this.ctx.lineTo(
-      x - cos * handsOff ,
-      y - sin * handsOff
+      x - cos * (handsOff),
+      y - sin *( handsOff)
     );
 
     ctx.stroke();
@@ -322,19 +322,37 @@ class TimeirClock {
       clockBoarderMiniRadius,
       ctx,
     } = args;
-    const hour =( date.getHours()%12 + date.getMinutes() / 60) * 5;
+    const hour = ((date.getHours() % 12) + date.getMinutes() / 60) * 5;
     const min = date.getMinutes() + date.getSeconds() / 60;
     const sec = date.getSeconds();
-    console.log({hour});
-    console.log({min});
-    console.log({sec});
-    this.createTimePointer({ ...args, width: 2, color: "red", pointStep: sec ,stayBack:10 });
-    this.createTimePointer({ ...args, width: 3, color: "grey", pointStep: min, handsOff:10});
-    this.createTimePointer({ ...args, width: 5, color: "grey", pointStep: hour,handsOff:20 });
+    console.log({ hour });
+    console.log({ min });
+    console.log({ sec });
+    this.createTimePointer({
+      ...args,
+      width: 2,
+      color: "red",
+      pointStep: sec,
+      stayBack: 10,
+    });
+    this.createTimePointer({
+      ...args,
+      width: 3,
+      color: "grey",
+      pointStep: min,
+      handsOff: 10,
+    });
+    this.createTimePointer({
+      ...args,
+      width: 5,
+      color: "grey",
+      pointStep: hour,
+      handsOff: 20,
+    });
   }
   drawClock(date = new Date()) {
     const ctx = this.ctx;
-    ctx.clearRect(0,0,this.canvas.width,this.canvas.height)
+    ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     const space = 10;
     const clockBoarderCircleX = this.canvas.offsetWidth / 2;
     const clockBoarderCircleY = this.canvas.offsetHeight / 2;
