@@ -79,6 +79,22 @@ class TimeirClock {
   init() {
     console.log(this.canvas);
     this.ctx = this.canvas.getContext("2d");
+    this.pointStepLen = 60;
+    this.secondDashCount = 60;
+    this.minuteDashCount = 60;
+    this.hourDashCount = 12;
+    this.fontSize = 15;
+    this.space = 10;
+    this.centralDotSize = 5;
+    this.mainBorderColor = "grey";
+    this.centralDotColor = "grey";
+    this.secondPointerColor = "red";
+    this.minutePointerColor = "black";
+    this.hourPointerColor = "black";
+    this.minDashColor = "rgb(0,0,0)";
+    this.hourDashColor = "rgb(0,0,0)";
+    this.hourTextColor = "rgb(0,0,0)";
+
     this.startShowClock();
     // this.drawClock();
   }
@@ -165,17 +181,28 @@ class TimeirClock {
       0,
       2 * Math.PI
     );
-    ctx.strokeStyle = "grey";
+    const previousColor = ctx.strokeStyle;
+    ctx.strokeStyle = this.mainBorderColor;
     ctx.lineWidth = 5;
     ctx.stroke();
     ctx.closePath();
+    ctx.strokeStyle = previousColor;
   }
   createCentralDot({ clockBoarderCircleX, clockBoarderCircleY, ctx }) {
     // show center
     ctx.beginPath();
-    ctx.arc(clockBoarderCircleX, clockBoarderCircleY, 4, 0, 2 * Math.PI);
+    const previousColor = ctx.fillStyle;
+    ctx.fillStyle = this.centralDotColor;
+    ctx.arc(
+      clockBoarderCircleX,
+      clockBoarderCircleY,
+      this.centralDotSize,
+      0,
+      2 * Math.PI
+    );
     ctx.fill();
     ctx.closePath();
+    ctx.fillStyle = previousColor;
   }
   createDashMarker({
     clockBoarderCircleX,
@@ -188,10 +215,10 @@ class TimeirClock {
       x: clockBoarderCircleX,
       y: clockBoarderCircleY,
       radius: clockBoarderMiniRadius,
-      dashCount: 60,
+      dashCount: this.minuteDashCount,
       dashSize: 1,
       dashWidth: 1,
-      color: "rgba(0,0,0,.3)",
+      color: this.minDashColor,
       ctx,
     });
 
@@ -200,14 +227,15 @@ class TimeirClock {
       x: clockBoarderCircleX,
       y: clockBoarderCircleY,
       radius: clockBoarderMiniRadius,
-      dashCount: 12,
+      dashCount: this.hourDashCount,
       dashSize: 5,
       dashWidth: 1,
+      color: this.hourDashColor,
       ctx,
     });
   }
   putHourTextNumber(info) {
-    const fontSize = 15;
+    const fontSize = this.fontSize;
     const {
       clockBoarderCircleX: x,
       clockBoarderCircleY: y,
@@ -230,6 +258,8 @@ class TimeirClock {
       dashWidth,
     });
 
+    const previousColor = ctx.fillStyle;
+    ctx.fillStyle = color;
     const previousFontSize = ctx.font;
     ctx.font = `${fontSize}px sans-serif`;
     const onFilter = ({ theta, radius, centerX, centerY, index }) => {
@@ -256,9 +286,9 @@ class TimeirClock {
       ctx.fillText(point + 1, ex + 0, ey);
     }
     ctx.font = previousFontSize;
+    ctx.fillStyle = previousColor;
   }
   createTimePointer({
-    date,
     clockBoarderCircleX,
     clockBoarderCircleY,
     clockBoarderMiniRadius,
@@ -277,7 +307,7 @@ class TimeirClock {
     ctx.lineWidth = width;
     ctx.lineCap = "round";
 
-    const dashCount = 60;
+    const dashCount = this.pointStepLen;
     //  1 min dashed
     const points = this.createCircleDashed(
       {
@@ -324,27 +354,29 @@ class TimeirClock {
     const min = date.getMinutes() + sec / 60;
     const hour = ((date.getHours() % 12) + min / 60) * 5;
 
-    //
+    //create second pointer
     this.createTimePointer({
       ...args,
       width: 2,
-      color: "red",
+      color: this.secondPointerColor,
       pointStep: sec,
       stayBack: 10,
       name: "sec",
     });
+    // create minute pointer
     this.createTimePointer({
       ...args,
       width: 3,
-      color: "black",
+      color: this.minutePointerColor,
       pointStep: min,
       handsOff: 8,
       name: "min",
     });
+    // create hour pointer
     this.createTimePointer({
       ...args,
       width: 5,
-      color: "black",
+      color: this.hourPointerColor,
       pointStep: hour,
       handsOff: 20,
       name: "hour",
@@ -357,7 +389,7 @@ class TimeirClock {
     // clear the canvas
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-    const space = 10;
+    const space = this.space;
     const clockBoarderCircleX = this.canvas.offsetWidth / 2;
     const clockBoarderCircleY = this.canvas.offsetHeight / 2;
     const clockBoarderCircleRadius = this.canvas.offsetHeight / 2 - space;
@@ -378,10 +410,10 @@ class TimeirClock {
     this.createDashMarker(info);
 
     // create hours text
-    this.putHourTextNumber({ ...info, space: 2 });
+    this.putHourTextNumber({ ...info, space: 2, color: this.hourTextColor });
 
-    // create TimePointers
     this.createCentralDot(info);
+    // create TimePointers
     this.createTimePointers(info);
   }
 }
