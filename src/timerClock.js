@@ -71,14 +71,24 @@ class DashedCircle {
 }
 
 class TimeirClock {
-  constructor({ element, time }) {
+  constructor({
+    element,
+    time,
+    onTick = function () {},
+    onTock = function () {},
+  }) {
     this.canvas = element;
-    this.userTime = !time ? new Date() : new Date(time);
+    this.userTime = !time ? null : new Date(time);
+    this.onTick = onTick;
+    this.onTock = onTock;
     this.init();
   }
   init() {
     console.log(this.canvas);
     this.ctx = this.canvas.getContext("2d");
+    this.pauseClock = false;
+    this.title = "Theora Vilderson";
+
     this.pointStepLen = 60;
     this.secondDashCount = 60;
     this.minuteDashCount = 60;
@@ -86,6 +96,7 @@ class TimeirClock {
     this.fontSize = 15;
     this.space = 10;
     this.centralDotSize = 5;
+
     this.mainBorderColor = "grey";
     this.centralDotColor = "grey";
     this.secondPointerColor = "red";
@@ -94,16 +105,38 @@ class TimeirClock {
     this.minDashColor = "rgb(0,0,0)";
     this.hourDashColor = "rgb(0,0,0)";
     this.hourTextColor = "rgb(0,0,0)";
+    this.titleColor = "rgb(0,0,0)";
+    this.id = this.randStr(9);
+    this.height = this.width = 200;
+    if (!this.canvas.width || !this.canvas.height) {
+      this.canvas.width = this.width;
+      this.canvas.height = this.height;
+    }
 
-    this.startShowClock();
+    // this.startClock();
     // this.drawClock();
   }
-  startShowClock() {
+  randStr(len = 9) {
+    return [..."aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ1234567890"]
+      .sort((e) => Math.random() - 0.5)
+      .join("")
+      .slice(0, len);
+  }
+  startClock() {
+    this.pauseClock = false;
+    this.signToWork();
     this.showClock();
+  }
+  signToWork() {
+    this.canvas.setAttribute("data-timerclock", this.id);
+  }
+  stopClock() {
+    this.pauseClock = true;
   }
   showClock() {
     this.drawClock();
-
+    if (this.pauseClock)
+      return (this.showClockTimer = +!!clearTimeout(this.showClockTimer));
     return (this.showClockTimer = setTimeout(this.showClock.bind(this), 1000));
   }
   createCircleDashed(
@@ -329,7 +362,7 @@ class TimeirClock {
     );
     points.unshift(...part1);
     let currentPoint = points[~~pointStep];
-    if (name != "sec") currentPoint.reCalc(pointStep - ~~(points.length / 4));
+    if (name !== "sec") currentPoint.reCalc(pointStep - ~~(points.length / 4));
 
     const { x, y, cos, sin } = currentPoint;
     const moveX = clockBoarderCircleX - cos * stayBack;
@@ -382,8 +415,37 @@ class TimeirClock {
       name: "hour",
     });
   }
+  putTitle({
+    ctx,
+    title,
+    clockBoarderCircleX,
+    clockBoarderCircleY,
+    clockBoarderMiniRadius,
+  }) {
+    const fontSize = this.fontSize / 2;
+    const previousColor = ctx.fillStyle;
+    ctx.fillStyle = this.titleColor;
+    const previousFontSize = ctx.font;
+    ctx.font = `${fontSize}px sans-serif`;
+    ctx.fillText(
+      title,
+      clockBoarderCircleX - clockBoarderMiniRadius / 2.5,
+      clockBoarderCircleY + clockBoarderMiniRadius / 2.5
+    );
+    ctx.font = previousFontSize;
+    ctx.fillStyle = previousColor;
+  }
 
   drawClock(date = new Date()) {
+    if (this.id !== this.canvas.getAttribute("data-timerclock"))
+      return this.stopClock();
+    date = this.currentTime = this.userTime
+      ? new Date(
+          +(this.currentTime ?? this.userTime) +
+            (this.currentTime != null ? 1000 : 0)
+        )
+      : date;
+    this.onTick(date);
     const ctx = this.ctx;
 
     // clear the canvas
@@ -412,9 +474,12 @@ class TimeirClock {
     // create hours text
     this.putHourTextNumber({ ...info, space: 2, color: this.hourTextColor });
 
+    this.putTitle({ ...info, title: this.title });
+
     this.createCentralDot(info);
     // create TimePointers
     this.createTimePointers(info);
+    this.onTock(date);
   }
 }
-// export default TimeirClock;
+export default TimeirClock;

@@ -4,7 +4,7 @@ import TimeirClock from "./TimeirClock";
 function App() {
   return (
     <div className="App">
-      <TimeirClock />
+      <TimeirClock amPm />
     </div>
   );
 }
