@@ -35,7 +35,7 @@ class DashedCircle {
             alpha,
             n,
             points,
-            i,
+            index: i,
             radius: this.radius,
             centerX: this.centerX,
             centerY: this.centerY,
@@ -83,8 +83,6 @@ class TimeirClock {
     // this.drawClock();
   }
   startShowClock() {
-    this.showClockTimer = setTimeout(this.showClock.bind(this), 1000);
-
     this.showClock();
   }
   showClock() {
@@ -115,19 +113,36 @@ class TimeirClock {
       dashCount,
       dashWidth,
     });
-
-    const onFilter = ({ theta, radius, centerX, centerY, dashSize }) => {
-      const cos = Math.cos(theta);
-      const sin = Math.sin(theta);
-
-      return {
+    const reCalcObj = {
+      reCalc(step) {
+        const theta = this.alpha * (step * 2);
+        this.cos = Math.cos(theta);
+        this.sin = Math.sin(theta);
+        this.x = this.cos * this.radius + this.centerX;
+        this.y = this.sin * this.radius + this.centerY;
+        this.ex = this.cos * (this.radius - this.dashSize) + this.centerX;
+        this.ey = this.sin * (this.radius - this.dashSize) + this.centerY;
+      },
+    };
+    const onFilter = ({ theta, radius, centerX, centerY, dashSize, alpha }) => {
+      let cos = Math.cos(theta);
+      let sin = Math.sin(theta);
+      const infoOBj = Object.create(reCalcObj);
+      Object.assign(infoOBj, {
+        dashSize,
+        alpha,
+        centerX,
+        centerY,
+        radius,
         cos,
         sin,
-        x: Math.cos(theta) * radius + centerX,
-        y: Math.sin(theta) * radius + centerY,
-        ex: Math.cos(theta) * (radius - dashSize) + centerX,
-        ey: Math.sin(theta) * (radius - dashSize) + centerY,
-      };
+        x: cos * radius + centerX,
+        y: sin * radius + centerY,
+        ex: cos * (radius - dashSize) + centerX,
+        ey: sin * (radius - dashSize) + centerY,
+      });
+
+      return infoOBj;
     };
 
     // get points and draw
@@ -158,7 +173,7 @@ class TimeirClock {
   createCentralDot({ clockBoarderCircleX, clockBoarderCircleY, ctx }) {
     // show center
     ctx.beginPath();
-    ctx.arc(clockBoarderCircleX, clockBoarderCircleY, 5, 0, 2 * Math.PI);
+    ctx.arc(clockBoarderCircleX, clockBoarderCircleY, 4, 0, 2 * Math.PI);
     ctx.fill();
     ctx.closePath();
   }
@@ -217,27 +232,11 @@ class TimeirClock {
 
     const previousFontSize = ctx.font;
     ctx.font = `${fontSize}px sans-serif`;
-    const onFilter = ({
-      theta,
-      theta2,
-      radius,
-      centerX,
-      centerY,
-      dashSize,
-      i,
-    }) => {
+    const onFilter = ({ theta, radius, centerX, centerY, index }) => {
       const cos = Math.cos(theta);
       const sin = Math.sin(theta);
-      const isCosNeg = cos < 0;
-      const isSinNeg = sin < 0;
-      const txt = String(~~(i / 2) + 1);
+      const txt = String(~~(index / 2) + 1);
       const textSize = ctx.measureText(txt).width;
-      const sizeX = textSize;
-      const sizeY = dashSize;
-      let ex = (isCosNeg ? 1 : -1) * sizeX;
-      let ey = (isSinNeg ? -1 : 1) * sizeY;
-      ex += space;
-      ey += space;
 
       return {
         cos,
@@ -251,9 +250,10 @@ class TimeirClock {
     const points = circle.CalculateCirclePoints(onFilter);
     const part1 = points.splice(points.length - 2, 3);
     points.unshift(...part1);
-    for (let p = 0; p < points.length; p++) {
-      const { cos, sin, ex, ey } = points[p];
-      ctx.fillText(p + 1, ex + 0, ey);
+
+    for (let point = 0; point < points.length; point++) {
+      const { ex, ey } = points[point];
+      ctx.fillText(point + 1, ex + 0, ey);
     }
     ctx.font = previousFontSize;
   }
@@ -268,6 +268,7 @@ class TimeirClock {
     pointStep = 30.5,
     stayBack = 0,
     handsOff = 10,
+    name,
   }) {
     ctx.beginPath();
     const previousColor = ctx.strokeStyle;
@@ -291,22 +292,24 @@ class TimeirClock {
       },
       true
     );
+
     const part1 = points.splice(
       points.length - ~~(points.length / 4),
       points.length
     );
     points.unshift(...part1);
-    const { x, y, cos, sin } = points[~~pointStep];
+    let currentPoint = points[~~pointStep];
+    if (name != "sec") currentPoint.reCalc(pointStep - ~~(points.length / 4));
+
+    const { x, y, cos, sin } = currentPoint;
     const moveX = clockBoarderCircleX - cos * stayBack;
     const moveY = clockBoarderCircleY - sin * stayBack;
     this.ctx.moveTo(moveX, moveY);
-    let floatStep = pointStep - ~~pointStep;
-    const sizeOfDot = (clockBoarderMiniRadius * Math.PI * 2) / 60;
-    console.log(floatStep + "", (floatStep = floatStep * sizeOfDot) + "");
-    this.ctx.lineTo(
-      x - cos * (handsOff),
-      y - sin *( handsOff)
-    );
+
+    let lineX = x - cos * handsOff;
+    let lineY = y - sin * handsOff;
+
+    this.ctx.lineTo(lineX, lineY);
 
     ctx.stroke();
     ctx.closePath();
@@ -315,44 +318,45 @@ class TimeirClock {
     ctx.strokeStyle = previousColor;
   }
   createTimePointers(args) {
-    const {
-      date,
-      clockBoarderCircleX,
-      clockBoarderCircleY,
-      clockBoarderMiniRadius,
-      ctx,
-    } = args;
-    const hour = ((date.getHours() % 12) + date.getMinutes() / 60) * 5;
-    const min = date.getMinutes() + date.getSeconds() / 60;
+    const { date } = args;
+    // convert sec and min and hour to number between 0,59
     const sec = date.getSeconds();
-    console.log({ hour });
-    console.log({ min });
-    console.log({ sec });
+    const min = date.getMinutes() + sec / 60;
+    const hour = ((date.getHours() % 12) + min / 60) * 5;
+
+    //
     this.createTimePointer({
       ...args,
       width: 2,
       color: "red",
       pointStep: sec,
       stayBack: 10,
+      name: "sec",
     });
     this.createTimePointer({
       ...args,
       width: 3,
-      color: "grey",
+      color: "black",
       pointStep: min,
-      handsOff: 10,
+      handsOff: 8,
+      name: "min",
     });
     this.createTimePointer({
       ...args,
       width: 5,
-      color: "grey",
+      color: "black",
       pointStep: hour,
       handsOff: 20,
+      name: "hour",
     });
   }
+
   drawClock(date = new Date()) {
     const ctx = this.ctx;
+
+    // clear the canvas
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
     const space = 10;
     const clockBoarderCircleX = this.canvas.offsetWidth / 2;
     const clockBoarderCircleY = this.canvas.offsetHeight / 2;
@@ -377,8 +381,8 @@ class TimeirClock {
     this.putHourTextNumber({ ...info, space: 2 });
 
     // create TimePointers
-    this.createTimePointers(info);
     this.createCentralDot(info);
+    this.createTimePointers(info);
   }
 }
 // export default TimeirClock;
