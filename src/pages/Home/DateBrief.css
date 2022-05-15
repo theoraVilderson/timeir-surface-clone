@@ -1,0 +1,136 @@
+.dateBrief__mainTime {
+  display: flex;
+  flex-wrap: wrap;
+}
+/* dateBrief__header */
+.dateBrief__header {
+  color: var(--text-light);
+  display: flex;
+  font-family: IRANSansBold;
+  line-height: 1;
+  font-size: 14px;
+  width: 100%;
+  order: 1;
+}
+.dateBrief__left,
+.dateBrief__right {
+  min-height: 93px;
+}
+.dateBrief__left {
+  background-color: var(--primary);
+  width: 85%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: flex-start;
+  padding: 20px;
+  box-sizing: border-box;
+  flex-wrap: wrap;
+}
+.dateBrief__info {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 10px;
+  align-items: center;
+  color: var(--text-light);
+}
+.dateBrief__head {
+  border-bottom: solid rgba(255, 255, 255, 0.5) 1px;
+  padding: 10px 10px;
+  color: var(--text-light-level-2);
+}
+/* .dateBrief__sub {
+} */
+.dateBrief__right {
+  background-color: var(--secondary);
+  color: var(--text-light);
+  width: 15%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* dateBrief__Azan */
+.dateBrief__Azan {
+  order: 2;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  height: 100%;
+}
+.dateBrief__AzanTitle {
+  color: var(--primary);
+  border-bottom: solid 1px var(--text-light-level-3);
+  height: 50px;
+}
+.dateBrief__AzanSelectContainer {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  direction: rtl;
+}
+.dateBrief__AzanSelect {
+  width: 50%;
+  display: flex;
+  padding: 10px;
+  box-sizing: border-box;
+  flex-direction: column;
+}
+.dateBrief__sunsetTime {
+  color: var(--text-light-level-3);
+  font-family: IRANSansLight;
+}
+/* dateBrief__Clock */
+.dateBrief__Azan,
+.dateBrief__Clock {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  box-sizing: border-box;
+}
+.dateBrief__Clock {
+  order: 3;
+}
+@media (max-width: 991px) {
+  .dateBrief__info:nth-of-type(1),
+  .dateBrief__info:nth-of-type(2) {
+    width: 50%;
+  }
+
+  .dateBrief__info:nth-of-type(3),
+  .dateBrief__info:nth-of-type(4) {
+    width: 50%;
+  }
+  .dateBrief__header {
+    order: 2;
+  }
+  .dateBrief__Azan {
+    order: 3;
+    width: 100%;
+  }
+  .dateBrief__Clock {
+    order: 1;
+    width: 100%;
+  }
+}
+@media (max-width: 767px) {
+  .dateBrief__header .dateBrief__info {
+    width: 100%;
+    border-bottom: solid #eee 1px;
+    padding: 10px 0;
+  }
+  .dateBrief__head {
+    border: none;
+  }
+  .dateBrief__right {
+    display: none;
+  }
+  .dateBrief__left {
+    width: 100%;
+    padding: 0;
+  }
+  .dateBrief__AzanSelect {
+    width: 100%;
+  }
+}

@@ -1,0 +1,97 @@
+@font-face {
+  font-family: IRANSansLight;
+  src: url("./fonts/IRANSansLight.eot?");
+  src: url("./fonts/IRANSansLight.eot?#iefix") format("embedded-opentype"),
+    url("./fonts/IRANSansLight.woff") format("woff"),
+    url("./fonts/IRANSansLight.ttf") format("truetype");
+}
+@font-face {
+  font-family: IRANSansBold;
+  src: url("./fonts/IRANSansBold.eot?");
+  src: url("./fonts/IRANSansBold.eot?#iefix") format("embedded-opentype"),
+    url("./fonts/IRANSansBold.woff") format("woff"),
+    url("./fonts/IRANSansBold.ttf") format("truetype");
+}
+@font-face {
+  font-family: IranBold;
+  src: url("./fonts/IranBold.eot?");
+  src: url("./fonts/IranBold.eot?#iefix") format("embedded-opentype"),
+    url("./fonts/IranBold.woff") format("woff"),
+    url("./fonts/IranBold.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Glyphicons Halflings";
+  src: url("./fonts/FontIcon.eot?");
+  src: url("./fonts/FontIcon.eot?#iefix") format("embedded-opentype"),
+    url("./fonts/FontIcon.woff") format("woff"),
+    url("./fonts/FontIcon.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+:root {
+  --container-padding: 5%;
+  /* --lg-w: 991px;
+  --md-w: 767px; */
+  --primary: #4cd035;
+  --secondary: #28a711;
+  --danger: #f00;
+  --link: #0964d5;
+  --link-active: #06428c;
+  --switch-bg: #1e7c0d;
+  --switch-color: #0f5103;
+  --text: #333;
+  --text-light: #fff;
+  --text-light-level-2: rgba(255, 255, 255, 0.63);
+  --text-light-level-3: #a7a3a3;
+  --bg: #e6e6e6;
+  --bg-level-2: #fff;
+  --bg-level-3: #ccc;
+}
+body {
+  font-family: "IRANSansLight", Tahoma, Helvetica, "IRANSansBold", Arial,
+    sans-serif;
+  margin: 0;
+  background-color: var(--bg);
+}
+.dark {
+  --primary: #aee5c3;
+  --secondary: var(--primary);
+  --danger: #fb98a0;
+  --link: #0964d5;
+  --link-active: var(--link);
+  --switch-bg: #1e7c0d;
+  --switch-color: #0f5103;
+  --text: #dbd8d3;
+  --text-light: #e8e6e3;
+  --text-light-level-2: #b4b4b4;
+  --bg: #26292b;
+  --bg-level-2: #181a1b;
+  --bg-level-3: #35393b;
+}
+/* @media (prefers-color-scheme: dark) {
+  :root {
+    --primary: #aee5c3;
+    --secondary: var(--primary);
+    --danger: #fb98a0;
+    --link: #0964d5;
+    --link-active: var(--link);
+    --switch-bg: #1e7c0d;
+    --switch-color: #0f5103;
+    --text: #dbd8d3;
+    --text-light: #e8e6e3;
+    --text-light-level-2: #b4b4b4;
+    --bg: #26292b;
+    --bg-level-2: #181a1b;
+    --bg-level-3: #35393b;
+  }
+} */
+
+main {
+  padding: 0 var(--container-padding);
+}
+@media (max-width: 767px) {
+  main {
+    padding: 0;
+  }
+}

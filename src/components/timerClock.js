@@ -84,7 +84,7 @@ class TimeirClock {
     this.init();
   }
   init() {
-    console.log(this.canvas);
+    console.log("we aer  init");
     this.ctx = this.canvas.getContext("2d");
     this.pauseClock = false;
     this.title = "Theora Vilderson";

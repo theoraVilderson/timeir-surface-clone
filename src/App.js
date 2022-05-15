@@ -1,11 +1,21 @@
+import "./glyphicon.css";
 import "./App.css";
-import TimeirClock from "./TimeirClock";
+import { globalContext } from "./appContext";
+import Footer from "./components/Footer";
+import Header from "./components/Header";
+import Home from "./pages/Home/Home";
 
 function App() {
   return (
-    <div className="App">
-      <TimeirClock amPm />
-    </div>
+    <>
+      <globalContext.Provider value={{ date: new Date() }}>
+        <Header />
+        <main>
+          <Home />
+        </main>
+        <Footer />
+      </globalContext.Provider>
+    </>
   );
 }
 

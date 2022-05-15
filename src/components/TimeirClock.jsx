@@ -19,7 +19,7 @@ function TimeirClock({ date: userDate = new Date(), amPm = false }) {
       time: userDate,
     });
     clock.startClock();
-  }, [userDate]);
+  }, []);
 
   return (
     <div style={{ width: "200px", fontFamily: "sans-serif" }}>

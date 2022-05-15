@@ -1,0 +1,10 @@
+section {
+  padding: 10px 20px;
+  background-color: var(--bg-level-2);
+}
+.Home {
+  position: relative;
+  top: -100px;
+  border-radius: 5px;
+  overflow: hidden;
+}
