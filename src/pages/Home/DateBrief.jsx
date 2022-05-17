@@ -2,6 +2,8 @@ import React from "react";
 import "./DateBrief.css";
 import TimeirClock from "../../components/TimeirClock";
 import AzanSelection, { AzanInfo } from "../../components/AzanSelection";
+import DateBox from "../../components/DateBox";
+import DateInfo from "../../components/DateInfo";
 const azanSunSetInfo = [
   {
     value: "22",
@@ -370,6 +372,489 @@ const azanSunRiseInfo = [
     name: "یزد",
   },
 ];
+const dateDaysInfo = [
+  {
+    day: "1 اردیبهشت",
+    dayAbout: "روز بزرگداشت سعدی",
+    popularDate: "",
+    holiDay: false,
+  },
+  {
+    day: "1 اردیبهشت",
+    dayAbout: "ضربت خوردن حضرت علی علیه السلام",
+    popularDate: "[ 19 رمضان ]",
+    holiDay: false,
+  },
+  {
+    day: "2 اردیبهشت",
+    dayAbout: "جشن گیاه آوری؛ روز زمین",
+    popularDate: "[ 22 April ]",
+    holiDay: false,
+  },
+  {
+    day: "3 اردیبهشت",
+    dayAbout: "روزبزرگداشت شیخ بهایی؛ روزملی کارآفرینی؛ روز معماری",
+    popularDate: "",
+    holiDay: false,
+  },
+  {
+    day: "3 اردیبهشت",
+    dayAbout: "شهادت حضرت علی علیه السلام",
+    popularDate: "[ 21 رمضان ]",
+    holiDay: true,
+  },
+  {
+    day: "4 اردیبهشت",
+    dayAbout: "شب قدر",
+    popularDate: "[ 22 رمضان ]",
+    holiDay: false,
+  },
+  {
+    day: "7 اردیبهشت",
+    dayAbout: "روز جهانی طراحی و گرافیک",
+    popularDate: "[ 27 April ]",
+    holiDay: false,
+  },
+  {
+    day: "9 اردیبهشت",
+    dayAbout: "روزشوراها",
+    popularDate: "",
+    holiDay: false,
+  },
+  {
+    day: "9 اردیبهشت",
+    dayAbout: "روز ملی روانشناس و مشاور",
+    popularDate: "",
+    holiDay: false,
+  },
+  {
+    day: "10 اردیبهشت",
+    dayAbout: "جشن چهلم نوروز؛ روز ملی خلیج فارس",
+    popularDate: "",
+    holiDay: false,
+  },
+  {
+    day: "11 اردیبهشت",
+    dayAbout: "روزجهانی  کارگر",
+    popularDate: "[ 1 May ]",
+    holiDay: false,
+  },
+  {
+    day: "12 اردیبهشت",
+    dayAbout: "روز معلم",
+    popularDate: "",
+    holiDay: false,
+  },
+  {
+    day: "13 اردیبهشت",
+    dayAbout: "عید سعید فطر",
+    popularDate: "[ 1 شوال ]",
+    holiDay: true,
+  },
+  {
+    day: "14 اردیبهشت",
+    dayAbout: "تعطیل به مناسبت عید سعید فطر",
+    popularDate: "[ 2 شوال ]",
+    holiDay: true,
+  },
+  {
+    day: "15 اردیبهشت",
+    dayAbout: "جشن میانه بهار/جشن بهاربد؛ روز شیراز",
+    popularDate: "",
+    holiDay: false,
+  },
+  {
+    day: "15 اردیبهشت",
+    dayAbout: "روز جهانی ماما",
+    popularDate: "[ 5 May ]",
+    holiDay: false,
+  },
+  {
+    day: "18 اردیبهشت",
+    dayAbout: "روز جهانی صلیب سرخ و هلال احمر",
+    popularDate: "[ 8 May ]",
+    holiDay: false,
+  },
+  {
+    day: "22 اردیبهشت",
+    dayAbout: "زادروز مریم میرزاخانی ریاضیدان ایرانی، روز جهانی زن در ریاضیات",
+    popularDate: "",
+    holiDay: false,
+  },
+  {
+    day: "25 اردیبهشت",
+    dayAbout: "روز بزرگداشت فردوسی",
+    popularDate: "",
+    holiDay: false,
+  },
+  {
+    day: "27 اردیبهشت",
+    dayAbout: "روز ارتباطات و روابط عمومی",
+    popularDate: "",
+    holiDay: false,
+  },
+  {
+    day: "28 اردیبهشت",
+    dayAbout: "روز بزرگداشت حکیم عمر خیام",
+    popularDate: "",
+    holiDay: false,
+  },
+  {
+    day: "28 اردیبهشت",
+    dayAbout: "روز جهانی موزه و میراث فرهنگی",
+    popularDate: "[ 18 May ]",
+    holiDay: false,
+  },
+];
+const dateDaysNumber = [
+  {
+    active: false,
+    holiDay: false,
+    disabled: true,
+    solarDay: "۲۷",
+    gregorianDay: "16",
+    lunarDay: "١٤",
+  },
+  {
+    active: false,
+    holiDay: false,
+    disabled: true,
+    solarDay: "۲۸",
+    gregorianDay: "17",
+    lunarDay: "١٥",
+  },
+  {
+    active: false,
+    holiDay: false,
+    disabled: true,
+    solarDay: "۲۹",
+    gregorianDay: "18",
+    lunarDay: "١٦",
+  },
+  {
+    active: false,
+    holiDay: false,
+    disabled: true,
+    solarDay: "۳۰",
+    gregorianDay: "19",
+    lunarDay: "١٧",
+  },
+  {
+    active: false,
+    holiDay: false,
+    disabled: true,
+    solarDay: "۳۱",
+    gregorianDay: "20",
+    lunarDay: "١٨",
+  },
+  {
+    active: false,
+    holiDay: false,
+    disabled: false,
+    solarDay: "۱",
+    gregorianDay: "21",
+    lunarDay: "١٩",
+  },
+  {
+    active: false,
+    holiDay: true,
+    disabled: false,
+    solarDay: "۲",
+    gregorianDay: "22",
+    lunarDay: "٢٠",
+  },
+  {
+    active: false,
+    holiDay: true,
+    disabled: false,
+    solarDay: "۳",
+    gregorianDay: "23",
+    lunarDay: "٢١",
+  },
+  {
+    active: false,
+    holiDay: false,
+    disabled: false,
+    solarDay: "۴",
+    gregorianDay: "24",
+    lunarDay: "٢٢",
+  },
+  {
+    active: false,
+    holiDay: false,
+    disabled: false,
+    solarDay: "۵",
+    gregorianDay: "25",
+    lunarDay: "٢٣",
+  },
+  {
+    active: false,
+    holiDay: false,
+    disabled: false,
+    solarDay: "۶",
+    gregorianDay: "26",
+    lunarDay: "٢٤",
+  },
+  {
+    active: false,
+    holiDay: false,
+    disabled: false,
+    solarDay: "۷",
+    gregorianDay: "27",
+    lunarDay: "٢٥",
+  },
+  {
+    active: false,
+    holiDay: false,
+    disabled: false,
+    solarDay: "۸",
+    gregorianDay: "28",
+    lunarDay: "٢٦",
+  },
+  {
+    active: false,
+    holiDay: true,
+    disabled: false,
+    solarDay: "۹",
+    gregorianDay: "29",
+    lunarDay: "٢٧",
+  },
+  {
+    active: false,
+    holiDay: false,
+    disabled: false,
+    solarDay: "۱۰",
+    gregorianDay: "30",
+    lunarDay: "٢٨",
+  },
+  {
+    active: false,
+    holiDay: false,
+    disabled: false,
+    solarDay: "۱۱",
+    gregorianDay: "01",
+    lunarDay: "٢٩",
+  },
+  {
+    active: false,
+    holiDay: false,
+    disabled: false,
+    solarDay: "۱۲",
+    gregorianDay: "02",
+    lunarDay: "٣٠",
+  },
+  {
+    active: false,
+    holiDay: true,
+    disabled: false,
+    solarDay: "۱۳",
+    gregorianDay: "03",
+    lunarDay: "٠١",
+  },
+  {
+    active: false,
+    holiDay: true,
+    disabled: false,
+    solarDay: "۱۴",
+    gregorianDay: "04",
+    lunarDay: "٠٢",
+  },
+  {
+    active: false,
+    holiDay: false,
+    disabled: false,
+    solarDay: "۱۵",
+    gregorianDay: "05",
+    lunarDay: "٠٣",
+  },
+  {
+    active: false,
+    holiDay: true,
+    disabled: false,
+    solarDay: "۱۶",
+    gregorianDay: "06",
+    lunarDay: "٠٤",
+  },
+  {
+    active: false,
+    holiDay: false,
+    disabled: false,
+    solarDay: "۱۷",
+    gregorianDay: "07",
+    lunarDay: "٠٥",
+  },
+  {
+    active: false,
+    holiDay: false,
+    disabled: false,
+    solarDay: "۱۸",
+    gregorianDay: "08",
+    lunarDay: "٠٦",
+  },
+  {
+    active: false,
+    holiDay: false,
+    disabled: false,
+    solarDay: "۱۹",
+    gregorianDay: "09",
+    lunarDay: "٠٧",
+  },
+  {
+    active: false,
+    holiDay: false,
+    disabled: false,
+    solarDay: "۲۰",
+    gregorianDay: "10",
+    lunarDay: "٠٨",
+  },
+  {
+    active: false,
+    holiDay: false,
+    disabled: false,
+    solarDay: "۲۱",
+    gregorianDay: "11",
+    lunarDay: "٠٩",
+  },
+  {
+    active: false,
+    holiDay: false,
+    disabled: false,
+    solarDay: "۲۲",
+    gregorianDay: "12",
+    lunarDay: "١٠",
+  },
+  {
+    active: false,
+    holiDay: true,
+    disabled: false,
+    solarDay: "۲۳",
+    gregorianDay: "13",
+    lunarDay: "١١",
+  },
+  {
+    active: false,
+    holiDay: false,
+    disabled: false,
+    solarDay: "۲۴",
+    gregorianDay: "14",
+    lunarDay: "١٢",
+  },
+  {
+    active: false,
+    holiDay: false,
+    disabled: false,
+    solarDay: "۲۵",
+    gregorianDay: "15",
+    lunarDay: "١٣",
+  },
+  {
+    active: false,
+    holiDay: false,
+    disabled: false,
+    solarDay: "۲۶",
+    gregorianDay: "16",
+    lunarDay: "١٤",
+  },
+  {
+    active: true,
+    holiDay: false,
+    disabled: false,
+    solarDay: "۲۷",
+    gregorianDay: "17",
+    lunarDay: "١٥",
+  },
+  {
+    active: false,
+    holiDay: false,
+    disabled: false,
+    solarDay: "۲۸",
+    gregorianDay: "18",
+    lunarDay: "١٦",
+  },
+  {
+    active: false,
+    holiDay: false,
+    disabled: false,
+    solarDay: "۲۹",
+    gregorianDay: "19",
+    lunarDay: "١٧",
+  },
+  {
+    active: false,
+    holiDay: true,
+    disabled: false,
+    solarDay: "۳۰",
+    gregorianDay: "20",
+    lunarDay: "١٨",
+  },
+  {
+    active: false,
+    holiDay: false,
+    disabled: false,
+    solarDay: "۳۱",
+    gregorianDay: "21",
+    lunarDay: "١٩",
+  },
+  {
+    active: false,
+    holiDay: false,
+    disabled: true,
+    solarDay: "۱",
+    gregorianDay: "22",
+    lunarDay: "٢٠",
+  },
+  {
+    active: false,
+    holiDay: false,
+    disabled: true,
+    solarDay: "۲",
+    gregorianDay: "23",
+    lunarDay: "٢١",
+  },
+  {
+    active: false,
+    holiDay: false,
+    disabled: true,
+    solarDay: "۳",
+    gregorianDay: "24",
+    lunarDay: "٢٢",
+  },
+  {
+    active: false,
+    holiDay: false,
+    disabled: true,
+    solarDay: "۴",
+    gregorianDay: "25",
+    lunarDay: "٢٣",
+  },
+  {
+    active: false,
+    holiDay: false,
+    disabled: true,
+    solarDay: "۵",
+    gregorianDay: "26",
+    lunarDay: "٢٤",
+  },
+  {
+    active: false,
+    holiDay: true,
+    disabled: true,
+    solarDay: "۶",
+    gregorianDay: "27",
+    lunarDay: "٢٥",
+  },
+];
+const dateBoxInfo = {
+  lunarYear: "١٤٤٣",
+  lunarCurrentMonth: "رمضان",
+  lunarNextMonth: "شوال",
+  solarYear: "۱۴۰۱",
+  solarMonth: "اردیبهشت",
+  gregorianYear: "2022",
+  gregorianCurrentMonth: "April",
+  gregorianNextMonth: "May",
+  days: dateDaysNumber,
+};
 function DateBrief() {
   return (
     <div className="dateBrief">
@@ -440,6 +925,26 @@ function DateBrief() {
         </div>
         <div className="dateBrief__Clock">
           <TimeirClock amPm c />
+        </div>
+      </div>
+      <div className="dateBrief__dayQuote">
+        <div className="dateBrief__dayQuoteText">
+          زن کامل نوع انسانی والاتری از مرد کامل است، هرچند بسیار کمیاب تر از
+          مرد است.
+        </div>
+        <span className="dateBrief__dayQuoteAuthor">فردریش نیچه</span>
+      </div>
+      <div className="dateBrief__mainDate">
+        <div className="dateBrief__dateInfo">
+          <h1> مناسبت های ماه اردیبهشت </h1>
+          <div className="dateBrief__dateInfoItems">
+            {dateDaysInfo.map((e) => {
+              return <DateInfo key={e.dayAbout} info={e} />;
+            })}
+          </div>
+        </div>
+        <div className="dateBrief__date">
+          <DateBox info={dateBoxInfo} />
         </div>
       </div>
     </div>

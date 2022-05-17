@@ -44,9 +44,12 @@
   --text-light: #fff;
   --text-light-level-2: rgba(255, 255, 255, 0.63);
   --text-light-level-3: #a7a3a3;
+  --text-light-level-4: #c6c6c6;
   --bg: #e6e6e6;
   --bg-level-2: #fff;
   --bg-level-3: #ccc;
+  --bg-level-4: #eee;
+  --bg-level-5: #f8f8f8;
 }
 body {
   font-family: "IRANSansLight", Tahoma, Helvetica, "IRANSansBold", Arial,

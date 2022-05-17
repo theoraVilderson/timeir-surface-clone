@@ -1,0 +1,20 @@
+.dateBreif__dateInfoItem {
+  color: var(--infoColor, var(--text));
+  padding: 2px 0;
+}
+
+.dateBreif__dateInfoItemPopularDate {
+  color: var(--dateColor, var(--text-light-level-3));
+  font-style: italic;
+}
+.dateBreif__dateInfoItemHoliDay {
+  --infoColor: var(--danger);
+  --dateColor: var(--text);
+}
+
+.dateBreif__dateInfoItemHoliDay .dateBreif__dateInfoItemPopularDate,
+.dateBreif__dateInfoItemHoliDay .dateBreif__dateInfoItemDayAbout,
+.dateBreif__dateInfoItem:hover .dateBreif__dateInfoItemDayAbout,
+.dateBreif__dateInfoItem:hover .dateBreif__dateInfoItemPopularDate {
+  font-weight: bold;
+}

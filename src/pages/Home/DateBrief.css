@@ -1,6 +1,8 @@
 .dateBrief__mainTime {
   display: flex;
   flex-wrap: wrap;
+  padding: 10px 20px;
+  box-sizing: border-box;
 }
 /* dateBrief__header */
 .dateBrief__header {
@@ -92,6 +94,62 @@
 .dateBrief__Clock {
   order: 3;
 }
+/* dateBrief__dayQuote */
+.dateBrief__dayQuote {
+  position: relative;
+  padding: 50px 20px;
+}
+.dateBrief__dayQuote::before {
+  content: "\e851";
+  font-family: "Glyphicons Halflings";
+  font-size: 63px;
+  color: var(--text-light-level-4);
+  position: absolute;
+  right: 17px;
+  top: 30px;
+}
+.dateBrief__dayQuoteText {
+  color: var(--text);
+  font-size: 15px;
+  direction: rtl;
+  padding-right: 80px;
+}
+.dateBrief__dayQuoteAuthor {
+  color: var(--link);
+  text-decoration: none;
+  cursor: pointer;
+}
+/* dateBrief__mainDate */
+.dateBrief__mainDate {
+  display: flex;
+  background-color: var(--bg-level-4);
+  border-top: solid 2px var(--bg-level-3);
+  flex-wrap: wrap;
+  padding: 10px;
+}
+.dateBrief__dateInfo,
+.dateBrief__date {
+  padding: 20px 30px;
+  box-sizing: border-box;
+}
+.dateBrief__dateInfo {
+  width: 55%;
+}
+.dateBrief__date {
+  width: 45%;
+}
+.dateBrief__dateInfo h1 {
+  direction: rtl;
+  color: var(--primary);
+  border-bottom: solid 1px var(--text-light-level-4);
+  padding: 10px 0;
+  font-size: 2rem;
+  margin: 10px 0;
+}
+.dateBrief__dateInfoItems {
+  direction: rtl;
+  font-size: 14px;
+}
 @media (max-width: 991px) {
   .dateBrief__info:nth-of-type(1),
   .dateBrief__info:nth-of-type(2) {
@@ -113,6 +171,16 @@
     order: 1;
     width: 100%;
   }
+  .dateBrief__dateInfo,
+  .dateBrief__date {
+    width: 100%;
+  }
+  .dateBrief__date {
+    order: 1;
+  }
+  .dateBrief__dateInfo {
+    order: 2;
+  }
 }
 @media (max-width: 767px) {
   .dateBrief__header .dateBrief__info {
@@ -132,5 +200,17 @@
   }
   .dateBrief__AzanSelect {
     width: 100%;
+  }
+  .dateBrief__dayQuote::before {
+    display: none;
+  }
+  .dateBrief__dayQuoteText {
+    padding-right: 0px;
+  }
+  .dateBrief__mainDate {
+    padding: 0;
+  }
+  .dateBrief__date {
+    padding: 0;
   }
 }
