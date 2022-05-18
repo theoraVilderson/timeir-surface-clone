@@ -6,7 +6,7 @@ function Header() {
   const [theme, setTheme] = useState("light");
   const isLight = theme === "light";
   return (
-    <header style={{ backgroundImage: `url("${headerImg}")` }}>
+    <header id="header" style={{ backgroundImage: `url("${headerImg}")` }}>
       <div className="header__box">
         <img src={headerLogo} alt="Logo" className="logo" />
         <div

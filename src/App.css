@@ -29,6 +29,9 @@
   font-style: normal;
   font-display: swap;
 }
+html {
+  scroll-behavior: smooth;
+}
 :root {
   --container-padding: 5%;
   /* --lg-w: 991px;
@@ -107,6 +110,7 @@ body {
   cursor: pointer;
   transition: all 0.3s ease-in-out;
   z-index: 1;
+  gap: 5px;
 }
 .primaryButton__bgEffect::before {
   content: "";
@@ -126,6 +130,55 @@ body {
 .primaryButton__bgEffect:hover {
   color: var(--primary);
 }
+.primaryButton__ballEffect {
+  position: relative;
+  overflow: hidden;
+}
+.primaryButton__ballEffect::after,
+.primaryButton__ballEffect::before {
+  content: "";
+  width: 20px;
+  height: 20px;
+  background-color: var(--text);
+  opacity: 0.2;
+  position: absolute;
+  border-radius: 100%;
+  transition: all 0.4s;
+}
+.primaryButton__ballEffect::after {
+  left: -10%;
+}
+.primaryButton__ballEffect::before {
+  right: -10%;
+}
+.primaryButton__ballEffect:hover::after,
+.primaryButton__ballEffect:focus::after,
+.primaryButton__ballEffect:active::after {
+  animation: ballEffect__left 0.4s forwards, ballEffect__Boom 1s 0.4s forwards;
+}
+.primaryButton__ballEffect:hover::before,
+.primaryButton__ballEffect:focus::before,
+.primaryButton__ballEffect:active::before {
+  animation: ballEffect__right 0.4s forwards, ballEffect__Boom 1s 0.4s forwards;
+}
+@keyframes ballEffect__left {
+  100% {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+@keyframes ballEffect__right {
+  100% {
+    right: 50%;
+    transform: translateX(50%);
+  }
+}
+@keyframes ballEffect__Boom {
+  100% {
+    transform: scale(100);
+    opacity: 0.2;
+  }
+}
 main {
   padding: 0 var(--container-padding);
 }
@@ -133,4 +186,9 @@ main {
   main {
     padding: 0;
   }
+}
+.link {
+  color: var(--link);
+  text-decoration: none;
+  cursor: pointer;
 }

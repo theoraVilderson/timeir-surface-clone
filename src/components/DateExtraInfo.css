@@ -1,0 +1,99 @@
+.dateExtraInfo {
+  padding-bottom: 1px;
+}
+.dateExtraInfo__header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.dateExtraInfo__header h4 {
+  padding: 10px;
+  color: var(--primary);
+  border-bottom: 1px solid var(--bg-level-3);
+}
+.dateExtraInfo > img {
+  margin: 0 auto;
+  display: block;
+}
+.dateExtraInfo > p {
+  direction: rtl;
+  padding: 30px;
+  font-size: 14px;
+}
+.dateExtraInfo___downloads {
+  gap: 10px;
+  direction: rtl;
+  margin: 20px;
+}
+.dateExtraInfo__download {
+  background-color: var(--bg-level-4);
+  display: flex;
+  box-sizing: border-box;
+  margin-top: 10px;
+  border-radius: 5px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.dateExtraInfo__download > * {
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+.dateExtraInfo___downloadsTitle {
+  flex: 0.5 1;
+  font-size: 20px;
+  font-family: "IRANSansBold";
+  margin: 0;
+  background-color: var(--bg-level-3);
+  padding: 10px;
+  color: var(--text-level-2);
+}
+
+.dateExtraInfo___downloadsAbout {
+  justify-content: flex-start;
+  padding: 20px;
+}
+.dateExtraInfo___downloadsLink {
+  flex: 0.5 1;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+}
+.dateExtraInfo___downloadsLink button {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 10px;
+  font-size: 16px;
+  align-items: center;
+  height: 50px;
+  min-width: 200px;
+}
+.dateExtraInfo___downloadsLink em {
+  padding: 5px 10px;
+  border-right: solid 1px var(--bg-level-2);
+  display: inline-flex;
+  height: 100%;
+  align-items: center;
+  width: 15px;
+  font-size: 20px;
+}
+@media (max-width: 991px) {
+  .dateExtraInfo___downloadsTitle {
+    flex: 0.7 1;
+  }
+}
+@media (max-width: 767px) {
+  .dateExtraInfo__download {
+    flex-direction: column;
+  }
+  .dateExtraInfo > img {
+    max-width: 100%;
+  }
+}
+
+/* dateExtraInfo__download
+dateExtraInfo___downloadsTitle
+dateExtraInfo___downloadsAbout
+dateExtraInfo___downloadsLink
+primaryButton__ballEffect */

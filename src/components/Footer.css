@@ -1,0 +1,60 @@
+footer {
+  background-color: var(--text);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  direction: rtl;
+  position: relative;
+}
+.footer__links {
+  text-align: center;
+}
+.footer__link,
+footer a {
+  display: inline-flex;
+  position: relative;
+  color: var(--text-light);
+  align-items: center;
+  justify-content: center;
+  padding: 10px 15px;
+  text-decoration: none;
+  font-size: 14px;
+}
+.footer__link:not(.footer__linkDotIgnre)::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  background: var(--text-light);
+  opacity: 0.2;
+  position: absolute;
+  right: -7px;
+  border-radius: 50%;
+}
+footer p {
+  color: var(--text-light);
+  font-size: 14px;
+}
+.footer__goToTop {
+  background-color: var(--primary);
+  height: 40px;
+  width: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  transform: translateY(-50%);
+}
+.footer__goToTop:after {
+  content: "\E810";
+  transition: 0.6s;
+  font: bold 2em/20px "Glyphicons Halflings";
+  text-align: center;
+  color: var(--text-light);
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 10;
+}

@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { globalContext } from "../../appContext";
 import DateConvertor from "../../components/DateConvertor";
+import DateExtraInfo from "../../components/DateExtraInfo";
 import DateBrief from "./DateBrief";
 import "./Home.css";
 function Home() {
@@ -13,6 +14,10 @@ function Home() {
       </section>
       <section>
         <DateConvertor />
+      </section>
+
+      <section>
+        <DateExtraInfo />
       </section>
     </div>
   );

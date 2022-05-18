@@ -115,10 +115,7 @@ i.AstrologicalSign:before {
 .dateConvertor__dateEvents button {
   max-width: 200px;
 }
-/* 
 
-
- */
 @media (max-width: 991px) {
   .dateConvertor__options {
   }
