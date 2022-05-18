@@ -56,7 +56,8 @@ function DateExtraInfo() {
         <div className="dateExtraInfo__download">
           <h4 className="dateExtraInfo___downloadsTitle">تقویم چاپی ۱۴۰۱</h4>
           <div className="dateExtraInfo___downloadsAbout">
-            تقویم چاپی سال 1401 خورشیدی نسخه A3
+            تقویم چاپی سال 1401 خورشیدی
+            <b>&nbsp; نسخه A3 </b>
           </div>
           <div className="dateExtraInfo___downloadsLink">
             <button className="primaryButton primaryButton__ballEffect">
@@ -67,7 +68,7 @@ function DateExtraInfo() {
         <div className="dateExtraInfo__download">
           <h4 className="dateExtraInfo___downloadsTitle">تقویم چاپی ۱۴۰۱</h4>
           <div className="dateExtraInfo___downloadsAbout">
-            تقویم چاپی سال 1401 خورشیدی نسخه A4
+            تقویم چاپی سال 1401 خورشیدی <b>&nbsp; نسخه A4 </b>
           </div>
           <div className="dateExtraInfo___downloadsLink">
             <button className="primaryButton primaryButton__ballEffect">

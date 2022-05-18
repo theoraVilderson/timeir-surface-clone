@@ -953,6 +953,7 @@
 .glyphicon-Sun:before {
   content: "";
 }
+
 .glyphicon-gregorian:before {
   content: "";
 }
@@ -1438,6 +1439,9 @@
   content: "";
 }
 .glyphicon-sun:before {
+  content: "";
+}
+.glyphicon-sunf::after {
   content: "";
 }
 .glyphicon-time:before {

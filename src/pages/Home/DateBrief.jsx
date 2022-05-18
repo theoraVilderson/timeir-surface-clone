@@ -924,7 +924,7 @@ function DateBrief() {
           </div>
         </div>
         <div className="dateBrief__Clock">
-          <TimeirClock amPm c />
+          <TimeirClock amPm date={new Date()} />
         </div>
       </div>
       <div className="dateBrief__dayQuote">

@@ -6,7 +6,7 @@
 }
 /* dateBrief__header */
 .dateBrief__header {
-  color: var(--text-light);
+  color: var(--header-color);
   display: flex;
   font-family: IRANSansBold;
   line-height: 1;
@@ -19,7 +19,7 @@
   min-height: 93px;
 }
 .dateBrief__left {
-  background-color: var(--primary);
+  background-color: var(--header-bg-color);
   width: 85%;
   display: flex;
   justify-content: space-evenly;
@@ -34,7 +34,6 @@
   justify-content: flex-start;
   gap: 10px;
   align-items: center;
-  color: var(--text-light);
 }
 .dateBrief__head {
   border-bottom: solid rgba(255, 255, 255, 0.5) 1px;
@@ -44,8 +43,8 @@
 /* .dateBrief__sub {
 } */
 .dateBrief__right {
-  background-color: var(--secondary);
-  color: var(--text-light);
+  background-color: var(--header-right-bg-color);
+  color: var(--header-right-color);
   width: 15%;
   display: flex;
   justify-content: center;
@@ -90,6 +89,7 @@
   align-items: center;
   padding: 10px;
   box-sizing: border-box;
+  color: var(--text);
 }
 .dateBrief__Clock {
   order: 3;
@@ -103,7 +103,7 @@
   content: "\e851";
   font-family: "Glyphicons Halflings";
   font-size: 63px;
-  color: var(--text-light-level-4);
+  color: var(--text-quote-bg-color);
   position: absolute;
   right: 17px;
   top: 30px;
@@ -115,15 +115,15 @@
   padding-right: 80px;
 }
 .dateBrief__dayQuoteAuthor {
-  color: var(--link);
+  color: var(--text-quote-author-color);
   text-decoration: none;
   cursor: pointer;
 }
 /* dateBrief__mainDate */
 .dateBrief__mainDate {
   display: flex;
-  background-color: var(--bg-level-4);
-  border-top: solid 2px var(--bg-level-3);
+  background-color: var(--mainDate-bg-color);
+  border-top: solid 1px var(--bg-level-3);
   flex-wrap: wrap;
   padding: 10px;
 }

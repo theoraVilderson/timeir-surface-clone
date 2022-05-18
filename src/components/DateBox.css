@@ -62,8 +62,8 @@
 }
 .dateBox__weekDays {
   display: flex;
-  background: var(--text);
-  color: var(--text-light);
+  background: var(--dateBox-weekDays-bg-color);
+  color: var(--dateBox-weekDays-color);
   border-radius: 5px;
   direction: rtl;
 }
@@ -85,6 +85,7 @@
   text-align: center;
   padding-top: 10px;
   cursor: pointer;
+  color: var(--text);
 }
 .dateBox__day > span {
   width: 50%;

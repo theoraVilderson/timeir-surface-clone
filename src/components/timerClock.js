@@ -98,6 +98,7 @@ class TimeirClock {
     this.centralDotSize = 5;
 
     this.mainBorderColor = "grey";
+    this.mainBorderCoverColor = "white";
     this.centralDotColor = "grey";
     this.secondPointerColor = "red";
     this.minutePointerColor = "black";
@@ -218,6 +219,28 @@ class TimeirClock {
     ctx.strokeStyle = this.mainBorderColor;
     ctx.lineWidth = 5;
     ctx.stroke();
+    ctx.closePath();
+    ctx.strokeStyle = previousColor;
+  }
+  createClockBoarderCover({
+    clockBoarderCircleX,
+    clockBoarderCircleY,
+    clockBoarderCircleRadius,
+    ctx,
+  }) {
+    // create main Clock Boarder
+    ctx.beginPath();
+    ctx.arc(
+      clockBoarderCircleX,
+      clockBoarderCircleY,
+      clockBoarderCircleRadius,
+      0,
+      2 * Math.PI
+    );
+    const previousColor = ctx.strokeStyle;
+    ctx.fillStyle = this.mainBorderCoverColor;
+    ctx.lineWidth = 5;
+    ctx.fill();
     ctx.closePath();
     ctx.strokeStyle = previousColor;
   }
@@ -467,6 +490,7 @@ class TimeirClock {
       date,
     };
 
+    this.createClockBoarderCover(info);
     this.createClockBoarder(info);
 
     this.createDashMarker(info);

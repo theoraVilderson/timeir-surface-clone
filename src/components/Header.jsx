@@ -3,8 +3,13 @@ import "./Header.css";
 import headerImg from "../imgs/headerImg.jpg";
 import headerLogo from "../imgs/headerLogo.svg";
 function Header() {
-  const [theme, setTheme] = useState("light");
+  let matched = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const [theme, setTheme] = useState(matched ? "dark" : "light");
   const isLight = theme === "light";
+  const previousTheme = isLight ? "dark" : "light";
+  const previousThemeElm = document.querySelector(`body.${previousTheme}`);
+  if (previousThemeElm) document.body.classList.toggle(previousTheme, false);
+  document.body.classList.toggle(theme, true);
   return (
     <header id="header" style={{ backgroundImage: `url("${headerImg}")` }}>
       <div className="header__box">
@@ -15,11 +20,7 @@ function Header() {
         >
           <button className={"themeToggle__toggler"}>
             <div className="themeToggle__toggleBar">
-              <i
-                className={
-                  "glyphicon " + (isLight ? "glyphicon-sun" : "glyphicon-moon")
-                }
-              ></i>
+              <i className={"glyphicon glyphicon-sunf glyphicon-moon"}></i>
             </div>
           </button>
         </div>

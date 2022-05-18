@@ -60,6 +60,7 @@ i.AstrologicalSign:before {
   border-left: none;
   border-right: none;
   grid-template-columns: repeat(4, 1fr);
+  color: var(--text);
 }
 .dateConvertor__result h5 {
   margin: 10px;

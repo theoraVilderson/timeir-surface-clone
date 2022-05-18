@@ -1,6 +1,6 @@
 section {
   background-color: var(--bg-level-2);
-  box-shadow: 0 0px 4px 0px var(--text);
+  box-shadow: 0 0px 4px 0px var(--bg);
   border-radius: 5px;
 }
 section ~ section {
@@ -12,6 +12,9 @@ section ~ section {
 }
 select {
   cursor: pointer;
+}
+select option {
+  background-color: var(--bg-level-2);
 }
 select,
 input {

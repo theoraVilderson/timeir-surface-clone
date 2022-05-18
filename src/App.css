@@ -43,6 +43,7 @@ html {
   --link-active: #06428c;
   --switch-bg: #1e7c0d;
   --switch-color: #0f5103;
+
   --text: #333;
   --text-level-2: #666;
   --text-light: #fff;
@@ -54,6 +55,48 @@ html {
   --bg-level-3: #ccc;
   --bg-level-4: #eee;
   --bg-level-5: #f8f8f8;
+  --header-bg-color: var(--primary);
+  --header-color: var(--text-light);
+  --header-right-bg-color: var(--secondary);
+  --mainDate-bg-color: var(--bg-level-4);
+  --dateBox-weekDays-bg-color: #404548;
+  --dateBox-weekDays-color: #fff;
+  --text-quote-bg-color: var(--bg-level-3);
+  --text-quote-author-color: var(--link);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --primary: #aee5c3;
+    --text: #fff;
+    --bg: #333;
+    --bg-level-2: #111;
+    --text-light: #222;
+    --header-bg-color: var(--bg);
+    --header-color: var(--text);
+    --header-right-bg-color: var(--primary);
+    --header-right-color: var(--text-light);
+    --mainDate-bg-color: var(--text-light);
+    --danger: #fb98a0;
+    --bg-level-4: #000;
+    --bg-level-3: #35393b;
+    --text-level-2: var(--primary);
+    --text-quote-bg-color: var(--primary);
+    --text-quote-author-color: var(--primary);
+  }
+  body:not(.light) .themeToggle:not(.themeToggle--active) {
+    --toggle-left: calc(100% - 15px);
+    --toggle-active-color: #fff;
+  }
+  body:not(.light)
+    .themeToggle__toggler:not(.themeToggle--active)
+    i.glyphicon-moon::before {
+    display: inline-block;
+  }
+  body:not(.light)
+    .themeToggle__toggler:not(.themeToggle--active)
+    i.glyphicon-sunf::after {
+    display: none !important;
+  }
 }
 body {
   font-family: "IRANSansLight", Tahoma, Helvetica, "IRANSansBold", Arial,
@@ -63,36 +106,55 @@ body {
 }
 .dark {
   --primary: #aee5c3;
-  --secondary: var(--primary);
+  --text: #fff;
+  --bg: #333;
+  --bg-level-2: #111;
+  --text-light: #222;
+  --header-bg-color: var(--bg);
+  --header-color: var(--text);
+  --header-right-bg-color: var(--primary);
+  --header-right-color: var(--text-light);
+  --mainDate-bg-color: var(--text-light);
   --danger: #fb98a0;
+  --bg-level-4: #000;
+  --bg-level-3: #35393b;
+  --text-level-2: var(--primary);
+  --text-quote-bg-color: var(--primary);
+  --text-quote-author-color: var(--primary);
+}
+.light {
+  --container-padding: 5%;
+  /* --lg-w: 991px;
+  --md-w: 767px; */
+  --primary: #4cd035;
+  --secondary: #28a711;
+  --danger: #f00;
   --link: #0964d5;
-  --link-active: var(--link);
+  --link-active: #06428c;
   --switch-bg: #1e7c0d;
   --switch-color: #0f5103;
-  --text: #dbd8d3;
-  --text-light: #e8e6e3;
-  --text-light-level-2: #b4b4b4;
-  --bg: #26292b;
-  --bg-level-2: #181a1b;
-  --bg-level-3: #35393b;
+
+  --text: #333;
+  --text-level-2: #666;
+  --text-light: #fff;
+  --text-light-level-2: rgba(255, 255, 255, 0.63);
+  --text-light-level-3: #a7a3a3;
+  --text-light-level-4: #c6c6c6;
+  --bg: #e6e6e6;
+  --bg-level-2: #fff;
+  --bg-level-3: #ccc;
+  --bg-level-4: #eee;
+  --bg-level-5: #f8f8f8;
+  --header-bg-color: var(--primary);
+  --header-color: var(--text-light);
+  --header-right-bg-color: var(--secondary);
+  --mainDate-bg-color: var(--bg-level-4);
+  --dateBox-weekDays-bg-color: #404548;
+  --dateBox-weekDays-color: #fff;
+  --text-quote-bg-color: var(--bg-level-3);
+  --text-quote-author-color: var(--link);
 }
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --primary: #aee5c3;
-    --secondary: var(--primary);
-    --danger: #fb98a0;
-    --link: #0964d5;
-    --link-active: var(--link);
-    --switch-bg: #1e7c0d;
-    --switch-color: #0f5103;
-    --text: #dbd8d3;
-    --text-light: #e8e6e3;
-    --text-light-level-2: #b4b4b4;
-    --bg: #26292b;
-    --bg-level-2: #181a1b;
-    --bg-level-3: #35393b;
-  }
-} */
+
 .primaryButton {
   width: 100%;
   display: flex;
@@ -139,7 +201,7 @@ body {
   content: "";
   width: 20px;
   height: 20px;
-  background-color: var(--text);
+  background-color: var(--text-light);
   opacity: 0.2;
   position: absolute;
   border-radius: 100%;

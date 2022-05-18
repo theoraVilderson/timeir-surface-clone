@@ -1,5 +1,6 @@
 .dateExtraInfo {
   padding-bottom: 1px;
+  color: var(--text);
 }
 .dateExtraInfo__header {
   display: flex;

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import Clock from "./timerClock";
-function TimeirClock({ date: userDate = new Date(), amPm = false }) {
+function TimeirClock({ date: userDate, amPm = false, ...props }) {
   const canvasRef = useRef(null);
   const canvas = <canvas ref={canvasRef} width={200} height={200} />;
   const [date, setDate] = useState(userDate);
@@ -19,10 +19,9 @@ function TimeirClock({ date: userDate = new Date(), amPm = false }) {
       time: userDate,
     });
     clock.startClock();
-  }, []);
-
+  }, [userDate]);
   return (
-    <div style={{ width: "200px", fontFamily: "sans-serif" }}>
+    <div {...props} style={{ width: "200px", fontFamily: "sans-serif" }}>
       {canvas}
       <div>
         <h2 style={{ textAlign: "center" }}>

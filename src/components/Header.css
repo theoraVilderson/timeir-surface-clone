@@ -33,8 +33,15 @@ header .logo {
   --toggle-left: calc(100% - 15px);
   --toggle-active-color: #fff;
 }
-.themeToggle--active i {
+.themeToggle__toggler .glyphicon-moon::before,
+.themeToggle__toggler .glyphicon-sunf::after {
+  display: none;
 }
+.themeToggle__toggler:not(.themeToggle--active) i.glyphicon-sunf::after,
+.themeToggle--active i.glyphicon-moon::before {
+  display: inline-block;
+}
+
 .themeToggle__toggleBar {
   border: solid var(--switch-color) 3px;
   outline: none;
