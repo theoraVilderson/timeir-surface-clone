@@ -58,6 +58,7 @@ html {
   --header-bg-color: var(--primary);
   --header-color: var(--text-light);
   --header-right-bg-color: var(--secondary);
+  --header-right-color: var(--text-light);
   --mainDate-bg-color: var(--bg-level-4);
   --dateBox-weekDays-bg-color: #404548;
   --dateBox-weekDays-color: #fff;
@@ -148,6 +149,7 @@ body {
   --header-bg-color: var(--primary);
   --header-color: var(--text-light);
   --header-right-bg-color: var(--secondary);
+  --header-right-color: var(--text-light);
   --mainDate-bg-color: var(--bg-level-4);
   --dateBox-weekDays-bg-color: #404548;
   --dateBox-weekDays-color: #fff;

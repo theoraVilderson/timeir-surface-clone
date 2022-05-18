@@ -21,6 +21,7 @@ footer a {
   padding: 10px 15px;
   text-decoration: none;
   font-size: 14px;
+  transition: 0.3s;
 }
 .footer__link:not(.footer__linkDotIgnre)::before {
   content: "";
@@ -31,6 +32,9 @@ footer a {
   position: absolute;
   right: -7px;
   border-radius: 50%;
+}
+.footer__link:hover {
+  color: var(--primary);
 }
 footer p {
   color: white;

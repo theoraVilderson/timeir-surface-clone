@@ -79,6 +79,7 @@ class TimeirClock {
   }) {
     this.canvas = element;
     this.userTime = !time ? null : new Date(time);
+    this.startPointDate = new Date();
     this.onTick = onTick;
     this.onTock = onTock;
     this.init();
@@ -462,12 +463,10 @@ class TimeirClock {
   drawClock(date = new Date()) {
     if (this.id !== this.canvas.getAttribute("data-timerclock"))
       return this.stopClock();
-    date = this.currentTime = this.userTime
-      ? new Date(
-          +(this.currentTime ?? this.userTime) +
-            (this.currentTime != null ? 1000 : 0)
-        )
-      : date;
+    const currentPointDate = new Date();
+    const betweenPointTime = +currentPointDate - +this.startPointDate;
+
+    date = this.userTime ? new Date(+this.userTime + betweenPointTime) : date;
     this.onTick(date);
     const ctx = this.ctx;
 
@@ -489,7 +488,6 @@ class TimeirClock {
       ctx,
       date,
     };
-
     this.createClockBoarderCover(info);
     this.createClockBoarder(info);
 
@@ -503,6 +501,7 @@ class TimeirClock {
     this.createCentralDot(info);
     // create TimePointers
     this.createTimePointers(info);
+
     this.onTock(date);
   }
 }
