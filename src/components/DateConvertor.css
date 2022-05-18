@@ -1,0 +1,181 @@
+.dateConvertor {
+  direction: rtl;
+}
+.dateConvertor__header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dateConvertor__header h1 {
+  padding: 10px;
+  color: var(--primary);
+  border-bottom: solid 1px var(--text-light-level-3);
+}
+.dateConvertor__options {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+.dateConvertor__options input[type="text"] {
+  text-align: left;
+  width: 80px;
+}
+.dateConvertor__options button {
+  width: 15vw;
+  max-width: 250px;
+  min-width: 100px;
+}
+.dateConvertor__option button,
+.dateConvertor__option select,
+.dateConvertor__option input {
+  margin-top: 10px;
+}
+
+.dateConvertor__option {
+}
+i.AstrologicalSign:before {
+  content: "";
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background: var(--primary) !important;
+  font-family: "Glyphicons Halflings";
+  font-size: 38px;
+  color: var(--text-light) !important;
+  position: relative;
+  z-index: 5;
+  margin-bottom: 10px;
+  height: 48px;
+  width: 48px;
+  font-size: 28px;
+}
+.dateConvertor__results {
+  display: grid;
+  background: var(--bg-level-4);
+  margin: 30px 20px;
+  box-sizing: border-box;
+  border: solid 1px var(--bg-level-3);
+  border-left: none;
+  border-right: none;
+  grid-template-columns: repeat(4, 1fr);
+}
+.dateConvertor__result h5 {
+  margin: 10px;
+}
+.dateConvertor__result {
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-sizing: border-box;
+  border-left: solid 1px var(--bg-level-3);
+  margin: 10px 0px;
+  padding: 15px 20px;
+}
+.dateConvertor__resultInfo h4 {
+  margin: 0;
+  font-weight: bold;
+  font-family: "IRANSansBold";
+  text-align: center;
+  font-size: 0.9rem;
+}
+.dateConvertor__resultIcon {
+  position: absolute;
+  right: 15%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.dateConvertor__result:last-child {
+  border-left: none;
+}
+.dateConvertor__result:first-child h5,
+.dateConvertor__result:first-child .dateConvertor__resultInfo {
+  position: relative;
+  left: -17%;
+}
+.dateConvertor__foot {
+  display: flex;
+  padding: 10px;
+  flex-wrap: wrap;
+}
+.dateConvertor__ageYearInfo,
+.dateConvertor__dateEvents {
+  flex: 1;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.dateConvertor__dateEvents {
+  justify-content: flex-end;
+}
+.dateConvertor__dateEvents button {
+  max-width: 200px;
+}
+/* 
+
+
+ */
+@media (max-width: 991px) {
+  .dateConvertor__options {
+  }
+  .dateConvertor__option {
+    width: 50%;
+    padding: 20px 5%;
+    box-sizing: border-box;
+  }
+  .dateConvertor__options input[type="text"] {
+    width: 100%;
+  }
+  .dateConvertor__option:last-child {
+    width: 100%;
+  }
+  .dateConvertor__options button {
+    width: 100%;
+    max-width: 100%;
+    min-width: 100%;
+  }
+  .dateConvertor__results {
+    grid-template-columns: repeat(2, 1fr);
+    margin: 0;
+  }
+  .dateConvertor__result {
+    border: none;
+    padding: 5px 20px;
+  }
+  .dateConvertor__result:first-child h5,
+  .dateConvertor__result:first-child .dateConvertor__resultInfo {
+    position: static;
+    left: 0;
+  }
+  .dateConvertor__resultIcon {
+    display: none;
+  }
+  .dateConvertor__ageYearInfo,
+  .dateConvertor__dateEvents {
+    width: 100%;
+    flex-basis: 100%;
+  }
+}
+@media (max-width: 767px) {
+  .dateConvertor__ageYearInfo {
+    flex-direction: column;
+    justify-content: center;
+  }
+  .dateConvertor__dateEvents {
+    justify-content: center;
+    width: 80%;
+  }
+  .dateConvertor__dateEvents button {
+    max-width: 80%;
+  }
+  .dateConvertor__option {
+    width: 100%;
+  }
+  .dateConvertor__results {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}

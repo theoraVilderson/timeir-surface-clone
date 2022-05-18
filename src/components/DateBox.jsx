@@ -148,7 +148,9 @@ function DateBox({
         </div>
       </div>
       <div className="dateBox__foot">
-        <button className="dateBox__goToday">برو به امروز</button>
+        <button className="primaryButton primaryButton__bgEffect dateBox__goToday">
+          برو به امروز
+        </button>
       </div>
     </div>
   );

@@ -41,6 +41,7 @@
   --switch-bg: #1e7c0d;
   --switch-color: #0f5103;
   --text: #333;
+  --text-level-2: #666;
   --text-light: #fff;
   --text-light-level-2: rgba(255, 255, 255, 0.63);
   --text-light-level-3: #a7a3a3;
@@ -89,7 +90,42 @@ body {
     --bg-level-3: #35393b;
   }
 } */
-
+.primaryButton {
+  width: 100%;
+  display: flex;
+  height: 40px;
+  background-color: var(--primary);
+  color: var(--text-light);
+  border-radius: 5px;
+  position: relative;
+  border: none;
+  outline: none;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-family: "IRANSansBold";
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  z-index: 1;
+}
+.primaryButton__bgEffect::before {
+  content: "";
+  z-index: -1;
+  background-color: var(--bg-level-2);
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: scaleX(0);
+  transition: all 0.3s ease-in-out;
+  height: 100%;
+}
+.primaryButton__bgEffect:hover::before {
+  transform: scaleX(1);
+}
+.primaryButton__bgEffect:hover {
+  color: var(--primary);
+}
 main {
   padding: 0 var(--container-padding);
 }
