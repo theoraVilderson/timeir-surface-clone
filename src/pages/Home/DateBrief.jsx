@@ -1,6 +1,8 @@
 import React from "react";
 import "./DateBrief.css";
-import TimeirClock from "../../components/TimeirClock";
+// the format is for .jsx for this module is important because there is file with same name but
+// with .js extension !
+import TimeirClock from "../../components/TimeirClock.jsx";
 import AzanSelection, { AzanInfo } from "../../components/AzanSelection";
 import DateBox from "../../components/DateBox";
 import DateInfo from "../../components/DateInfo";

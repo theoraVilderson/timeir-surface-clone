@@ -85,7 +85,47 @@ class TimeirClock {
     this.init();
   }
   init() {
-    console.log("we aer  init");
+    const canvasWidth =
+      +this.canvas.offsetWidth ||
+      +this.canvas.width ||
+      +this.canvas.clientWidth;
+    const canvasHeight =
+      +this.canvas.offsetHeight ||
+      +this.canvas.Height ||
+      +this.canvas.clientHeight;
+    if (!canvasWidth || !canvasHeight) {
+      this.canvas.width = 200;
+      this.canvas.height = 200;
+      this.height = 200;
+      this.width = 200;
+    } else {
+      this.height = canvasHeight;
+      this.width = canvasWidth;
+    }
+
+    this.surfaceSize = this.width + this.height;
+    this.idealFontSize = 15;
+    this.fontSize = this.sizeWithMin(this.surfaceSize / 30, 7);
+    this.space = this.surfaceSize / 40;
+    this.clockBorderCircleX = this.width / 2;
+    this.clockBorderCircleY = this.height / 2;
+    this.clockBorderCircleRadius = this.height / 2 - this.space;
+    this.clockBorderMiniRadius = this.clockBorderCircleRadius / 1.5;
+
+    this.secondPointerSize = this.sizeWithMin(this.surfaceSize / 150, 0.2);
+    this.minutePointerSize = this.sizeWithMin(this.surfaceSize / 90, 0.3);
+    this.hourPointerSize = this.sizeWithMin(this.surfaceSize / 60, 0.5);
+
+    this.secondPointerStayBack = this.surfaceSize / 40;
+    this.secondPointerHandsOff = this.surfaceSize / 40;
+    this.minutePointerHandsOff = this.surfaceSize / 25;
+    this.hourPointerHandsOff = this.surfaceSize / 20;
+
+    this.clockBorderSize = this.sizeWithMin(this.surfaceSize / 80, 1);
+    this.markerDashedWidth = this.sizeWithMin(this.surfaceSize / 400, 1);
+    this.markerMinuteDashedSize = this.sizeWithMin(this.surfaceSize / 400, 1);
+    this.markerHourDashedSize = this.sizeWithMin(this.surfaceSize / 80, 2);
+
     this.ctx = this.canvas.getContext("2d");
     this.pauseClock = false;
     this.title = "Theora Vilderson";
@@ -94,10 +134,12 @@ class TimeirClock {
     this.secondDashCount = 60;
     this.minuteDashCount = 60;
     this.hourDashCount = 12;
-    this.fontSize = 15;
-    this.space = 10;
-    this.centralDotSize = 5;
-
+    this.centralDotSize = this.sizeWithMin(this.surfaceSize / 80, 2);
+    this.textHourSpace =
+      (this.clockBorderCircleRadius -
+        this.clockBorderMiniRadius -
+        this.space * 2) /
+      2;
     this.mainBorderColor = "grey";
     this.mainBorderCoverColor = "white";
     this.centralDotColor = "grey";
@@ -109,14 +151,12 @@ class TimeirClock {
     this.hourTextColor = "rgb(0,0,0)";
     this.titleColor = "rgb(0,0,0)";
     this.id = this.randStr(9);
-    this.height = this.width = 200;
-    if (!this.canvas.width || !this.canvas.height) {
-      this.canvas.width = this.width;
-      this.canvas.height = this.height;
-    }
 
     // this.startClock();
     // this.drawClock();
+  }
+  sizeWithMin(size, min = 0) {
+    return size < min ? min : size;
   }
   randStr(len = 9) {
     return [..."aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ1234567890"]
@@ -175,7 +215,15 @@ class TimeirClock {
         this.ey = this.sin * (this.radius - this.dashSize) + this.centerY;
       },
     };
-    const onFilter = ({ theta, radius, centerX, centerY, dashSize, alpha }) => {
+    const onFilter = ({
+      theta,
+      radius,
+      centerX,
+      centerY,
+      dashSize,
+      alpha,
+      index,
+    }) => {
       let cos = Math.cos(theta);
       let sin = Math.sin(theta);
       const infoOBj = Object.create(reCalcObj);
@@ -186,6 +234,7 @@ class TimeirClock {
         centerY,
         radius,
         cos,
+        index: ~~(index / 2),
         sin,
         x: cos * radius + centerX,
         y: sin * radius + centerY,
@@ -201,40 +250,40 @@ class TimeirClock {
     if (returnPoints) return pointes;
     circle.Draw(pointes);
   }
-  createClockBoarder({
-    clockBoarderCircleX,
-    clockBoarderCircleY,
-    clockBoarderCircleRadius,
+  createClockBorder({
+    clockBorderCircleX,
+    clockBorderCircleY,
+    clockBorderCircleRadius,
     ctx,
   }) {
-    // create main Clock Boarder
+    // create main Clock Border
     ctx.beginPath();
     ctx.arc(
-      clockBoarderCircleX,
-      clockBoarderCircleY,
-      clockBoarderCircleRadius,
+      clockBorderCircleX,
+      clockBorderCircleY,
+      clockBorderCircleRadius,
       0,
       2 * Math.PI
     );
     const previousColor = ctx.strokeStyle;
     ctx.strokeStyle = this.mainBorderColor;
-    ctx.lineWidth = 5;
+    ctx.lineWidth = this.clockBorderSize;
     ctx.stroke();
     ctx.closePath();
     ctx.strokeStyle = previousColor;
   }
-  createClockBoarderCover({
-    clockBoarderCircleX,
-    clockBoarderCircleY,
-    clockBoarderCircleRadius,
+  createClockBorderCover({
+    clockBorderCircleX,
+    clockBorderCircleY,
+    clockBorderCircleRadius,
     ctx,
   }) {
-    // create main Clock Boarder
+    // create main Clock Border
     ctx.beginPath();
     ctx.arc(
-      clockBoarderCircleX,
-      clockBoarderCircleY,
-      clockBoarderCircleRadius,
+      clockBorderCircleX,
+      clockBorderCircleY,
+      clockBorderCircleRadius,
       0,
       2 * Math.PI
     );
@@ -245,14 +294,14 @@ class TimeirClock {
     ctx.closePath();
     ctx.strokeStyle = previousColor;
   }
-  createCentralDot({ clockBoarderCircleX, clockBoarderCircleY, ctx }) {
+  createCentralDot({ clockBorderCircleX, clockBorderCircleY, ctx }) {
     // show center
     ctx.beginPath();
     const previousColor = ctx.fillStyle;
     ctx.fillStyle = this.centralDotColor;
     ctx.arc(
-      clockBoarderCircleX,
-      clockBoarderCircleY,
+      clockBorderCircleX,
+      clockBorderCircleY,
       this.centralDotSize,
       0,
       2 * Math.PI
@@ -262,41 +311,97 @@ class TimeirClock {
     ctx.fillStyle = previousColor;
   }
   createDashMarker({
-    clockBoarderCircleX,
-    clockBoarderCircleY,
-    clockBoarderMiniRadius,
+    clockBorderCircleX,
+    clockBorderCircleY,
+    clockBorderMiniRadius,
     ctx,
   }) {
-    //  1 min dashed
+    //  minutes
     this.createCircleDashed({
-      x: clockBoarderCircleX,
-      y: clockBoarderCircleY,
-      radius: clockBoarderMiniRadius,
+      x: clockBorderCircleX,
+      y: clockBorderCircleY,
+      radius: clockBorderMiniRadius,
       dashCount: this.minuteDashCount,
-      dashSize: 1,
-      dashWidth: 1,
+      dashSize: this.markerMinuteDashedSize,
+      dashWidth: this.markerDashedWidth,
       color: this.minDashColor,
       ctx,
     });
 
-    //  5 mins dashed
+    //  hours
+
     this.createCircleDashed({
-      x: clockBoarderCircleX,
-      y: clockBoarderCircleY,
-      radius: clockBoarderMiniRadius,
+      x: clockBorderCircleX,
+      y: clockBorderCircleY,
+      radius: clockBorderMiniRadius,
       dashCount: this.hourDashCount,
-      dashSize: 5,
-      dashWidth: 1,
+      dashSize: this.markerHourDashedSize,
+      dashWidth: this.markerDashedWidth,
       color: this.hourDashColor,
       ctx,
     });
   }
+  // putHourTextNumber(info) {
+  //   const fontSize = this.fontSize;
+  //   const {
+  //     clockBorderCircleX: x,
+  //     clockBorderCircleY: y,
+  //     clockBorderMiniRadius: radius,
+  //     dashCount = 12,
+  //     dashSize = 8,
+  //     dashWidth = 5,
+  //     color = "rgb(0,0,0)",
+  //     ctx = this.ctx,
+  //     space,
+  //   } = info;
+  //   const circle = new DashedCircle({
+  //     ctx,
+  //     centerX: x,
+  //     centerY: y,
+  //     radius: radius + fontSize,
+  //     color,
+  //     dashSize,
+  //     dashCount,
+  //     dashWidth,
+  //   });
+
+  //   const previousColor = ctx.fillStyle;
+  //   ctx.fillStyle = color;
+  //   const previousFontSize = ctx.font;
+  //   ctx.font = `${fontSize}px sans-serif`;
+  //   const onFilter = ({ theta, radius, centerX, centerY, index }) => {
+  //     const cos = Math.cos(theta);
+  //     const sin = Math.sin(theta);
+  //     const txt = String(~~(index / 2) + 1);
+  //     const textSize = ctx.measureText(txt).width;
+
+  //     return {
+  //       cos,
+  //       sin,
+  //       x: cos * radius + centerX,
+  //       y: sin * radius + centerY,
+  //       ex: cos * (radius + space) + centerX - textSize / 2,
+  //       ey: sin * (radius + space / 2) + centerY + textSize / 2,
+  //     };
+  //   };
+  //   const points = circle.CalculateCirclePoints(onFilter);
+  //   const part1 = points.splice(points.length - 2, 3);
+  //   points.unshift(...part1);
+
+  //   for (let point = 0; point < points.length; point++) {
+  //     const { ex, ey } = points[point];
+  //     ctx.fillText(point + 1, ex + 0, ey);
+  //   }
+  //   ctx.font = previousFontSize;
+  //   ctx.fillStyle = previousColor;
+  // }
+
   putHourTextNumber(info) {
     const fontSize = this.fontSize;
     const {
-      clockBoarderCircleX: x,
-      clockBoarderCircleY: y,
-      clockBoarderMiniRadius: radius,
+      clockBorderCircleX: x,
+      clockBorderCircleY: y,
+      clockBorderMiniRadius: radius,
       dashCount = 12,
       dashSize = 8,
       dashWidth = 5,
@@ -304,51 +409,50 @@ class TimeirClock {
       ctx = this.ctx,
       space,
     } = info;
-    const circle = new DashedCircle({
-      ctx,
-      centerX: x,
-      centerY: y,
-      radius: radius + fontSize,
-      color,
-      dashSize,
-      dashCount,
-      dashWidth,
-    });
 
     const previousColor = ctx.fillStyle;
     ctx.fillStyle = color;
     const previousFontSize = ctx.font;
-    ctx.font = `${fontSize}px sans-serif`;
-    const onFilter = ({ theta, radius, centerX, centerY, index }) => {
-      const cos = Math.cos(theta);
-      const sin = Math.sin(theta);
-      const txt = String(~~(index / 2) + 1);
-      const textSize = ctx.measureText(txt).width;
+    ctx.font = `${fontSize}px monospace`;
 
-      return {
-        cos,
-        sin,
-        x: cos * radius + centerX,
-        y: sin * radius + centerY,
-        ex: cos * (radius + space) + centerX - textSize / 2,
-        ey: sin * (radius + space / 2) + centerY + textSize / 2,
-      };
-    };
-    const points = circle.CalculateCirclePoints(onFilter);
+    const points = this.createCircleDashed(
+      {
+        x,
+        y,
+        radius: radius + 10,
+        dashCount,
+        dashSize: 5,
+        dashWidth: 1,
+        color: this.hourDashColor,
+        ctx,
+      },
+      true
+    );
+
     const part1 = points.splice(points.length - 2, 3);
     points.unshift(...part1);
 
     for (let point = 0; point < points.length; point++) {
-      const { ex, ey } = points[point];
-      ctx.fillText(point + 1, ex + 0, ey);
+      let { x, y, cos, sin, radius, centerX, centerY, alpha, index } =
+        points[point];
+      const text = point + 1 + "";
+      const textSize = ctx.measureText(text).width / 2;
+      const multiNumberSize =
+        (text.length - 1) * (fontSize / (text.length + 1));
+      const theta = alpha * (index * 2);
+      cos = Math.cos(theta);
+      sin = Math.sin(theta);
+      x = cos * (radius + space) + centerX - textSize;
+      y = sin * (radius + space) + centerY + (textSize - multiNumberSize);
+      ctx.fillText(text, x, y);
     }
     ctx.font = previousFontSize;
     ctx.fillStyle = previousColor;
   }
   createTimePointer({
-    clockBoarderCircleX,
-    clockBoarderCircleY,
-    clockBoarderMiniRadius,
+    clockBorderCircleX,
+    clockBorderCircleY,
+    clockBorderMiniRadius,
     ctx,
     color = "black",
     width = 5,
@@ -368,9 +472,9 @@ class TimeirClock {
     //  1 min dashed
     const points = this.createCircleDashed(
       {
-        x: clockBoarderCircleX,
-        y: clockBoarderCircleY,
-        radius: clockBoarderMiniRadius,
+        x: clockBorderCircleX,
+        y: clockBorderCircleY,
+        radius: clockBorderMiniRadius,
         dashCount,
         dashSize: 1,
         dashWidth: 1,
@@ -389,8 +493,8 @@ class TimeirClock {
     if (name !== "sec") currentPoint.reCalc(pointStep - ~~(points.length / 4));
 
     const { x, y, cos, sin } = currentPoint;
-    const moveX = clockBoarderCircleX - cos * stayBack;
-    const moveY = clockBoarderCircleY - sin * stayBack;
+    const moveX = clockBorderCircleX - cos * stayBack;
+    const moveY = clockBorderCircleY - sin * stayBack;
     this.ctx.moveTo(moveX, moveY);
 
     let lineX = x - cos * handsOff;
@@ -414,47 +518,50 @@ class TimeirClock {
     //create second pointer
     this.createTimePointer({
       ...args,
-      width: 2,
+      width: this.secondPointerSize,
       color: this.secondPointerColor,
       pointStep: sec,
-      stayBack: 10,
+      stayBack: this.secondPointerStayBack,
+      handsOff: this.secondPointerHandsOff,
       name: "sec",
     });
     // create minute pointer
     this.createTimePointer({
       ...args,
-      width: 3,
+      width: this.minutePointerSize,
       color: this.minutePointerColor,
       pointStep: min,
-      handsOff: 8,
+      handsOff: this.minutePointerHandsOff,
       name: "min",
     });
     // create hour pointer
     this.createTimePointer({
       ...args,
-      width: 5,
+      width: this.hourPointerSize,
       color: this.hourPointerColor,
       pointStep: hour,
-      handsOff: 20,
+      handsOff: this.hourPointerHandsOff,
       name: "hour",
     });
   }
   putTitle({
     ctx,
     title,
-    clockBoarderCircleX,
-    clockBoarderCircleY,
-    clockBoarderMiniRadius,
+    clockBorderCircleX,
+    clockBorderCircleY,
+    clockBorderMiniRadius,
+    space,
   }) {
     const fontSize = this.fontSize / 2;
     const previousColor = ctx.fillStyle;
     ctx.fillStyle = this.titleColor;
     const previousFontSize = ctx.font;
     ctx.font = `${fontSize}px sans-serif`;
+    const textSize = ctx.measureText(title).width / 2;
     ctx.fillText(
       title,
-      clockBoarderCircleX - clockBoarderMiniRadius / 2.5,
-      clockBoarderCircleY + clockBoarderMiniRadius / 2.5
+      clockBorderCircleX - textSize,
+      clockBorderCircleY + clockBorderMiniRadius - (fontSize * 2 + space)
     );
     ctx.font = previousFontSize;
     ctx.fillStyle = previousColor;
@@ -474,27 +581,31 @@ class TimeirClock {
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
     const space = this.space;
-    const clockBoarderCircleX = this.canvas.offsetWidth / 2;
-    const clockBoarderCircleY = this.canvas.offsetHeight / 2;
-    const clockBoarderCircleRadius = this.canvas.offsetHeight / 2 - space;
-    const clockBoarderMiniRadius = clockBoarderCircleRadius / 1.5;
+    const clockBorderCircleX = this.clockBorderCircleX;
+    const clockBorderCircleY = this.clockBorderCircleY;
+    const clockBorderCircleRadius = this.clockBorderCircleRadius;
+    const clockBorderMiniRadius = this.clockBorderMiniRadius;
 
     const info = {
-      clockBoarderCircleX,
-      clockBoarderCircleY,
-      clockBoarderCircleRadius,
+      clockBorderCircleX,
+      clockBorderCircleY,
+      clockBorderCircleRadius,
       space,
-      clockBoarderMiniRadius,
+      clockBorderMiniRadius,
       ctx,
       date,
     };
-    this.createClockBoarderCover(info);
-    this.createClockBoarder(info);
+    this.createClockBorderCover(info);
+    this.createClockBorder(info);
 
     this.createDashMarker(info);
 
     // create hours text
-    this.putHourTextNumber({ ...info, space: 2, color: this.hourTextColor });
+    this.putHourTextNumber({
+      ...info,
+      space: this.textHourSpace,
+      color: this.hourTextColor,
+    });
 
     this.putTitle({ ...info, title: this.title });
 

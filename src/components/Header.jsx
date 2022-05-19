@@ -4,7 +4,8 @@ import headerImg from "../imgs/headerImg.jpg";
 import headerLogo from "../imgs/headerLogo.svg";
 function Header() {
   let matched = window.matchMedia("(prefers-color-scheme: dark)").matches;
-  const [theme, setTheme] = useState(matched ? "dark" : "light");
+  // const [theme, setTheme] = useState(matched ? "dark" : "light");
+  const [theme, setTheme] = useState("light");
   const isLight = theme === "light";
   const previousTheme = isLight ? "dark" : "light";
   const previousThemeElm = document.querySelector(`body.${previousTheme}`);

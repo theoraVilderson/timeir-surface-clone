@@ -32,8 +32,6 @@
   margin-top: 10px;
 }
 
-.dateConvertor__option {
-}
 i.AstrologicalSign:before {
   content: "";
   display: flex;
@@ -118,8 +116,6 @@ i.AstrologicalSign:before {
 }
 
 @media (max-width: 991px) {
-  .dateConvertor__options {
-  }
   .dateConvertor__option {
     width: 50%;
     padding: 20px 5%;

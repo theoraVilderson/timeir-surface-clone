@@ -99,12 +99,6 @@ html {
     display: none !important;
   }
 }
-body {
-  font-family: "IRANSansLight", Tahoma, Helvetica, "IRANSansBold", Arial,
-    sans-serif;
-  margin: 0;
-  background-color: var(--bg);
-}
 .dark {
   --primary: #aee5c3;
   --text: #fff;
@@ -123,6 +117,13 @@ body {
   --text-quote-bg-color: var(--primary);
   --text-quote-author-color: var(--primary);
 }
+body {
+  font-family: "IRANSansLight", Tahoma, Helvetica, "IRANSansBold", Arial,
+    sans-serif;
+  margin: 0;
+  background-color: var(--bg);
+}
+
 .light {
   --container-padding: 5%;
   /* --lg-w: 991px;

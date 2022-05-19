@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import Clock from "./timerClock";
+import Clock from "./timeirClock";
 function TimeirClock({ date: userDate, amPm = false, ...props }) {
   const canvasRef = useRef(null);
   const canvas = <canvas ref={canvasRef} width={200} height={200} />;
