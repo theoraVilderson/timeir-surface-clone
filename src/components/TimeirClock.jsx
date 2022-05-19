@@ -24,7 +24,7 @@ function TimeirClock({ date: userDate, amPm = false, ...props }) {
       time: userDate, //yo can use optional Date
     });
     clock.startClock();
-  }, []);
+  }, [userDate]);
   return (
     <div {...props} style={{ width: "200px", fontFamily: "sans-serif" }}>
       {canvas}

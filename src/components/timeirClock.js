@@ -76,6 +76,7 @@ class TimeirClock {
     time,
     onTick = function () {},
     onTock = function () {},
+    options = {},
   }) {
     this.canvas = element;
     this.userTime = !time ? null : new Date(time);
@@ -83,80 +84,139 @@ class TimeirClock {
     this.onTick = onTick;
     this.onTock = onTock;
     this.init();
+    this.userOption = options;
   }
   init() {
+    this.options = {
+      scaleWidth: 200,
+      scaleHeight: 200,
+      fontSize: 15,
+      space: 10,
+      secondPointerSize: 2,
+      minutePointerSize: 3,
+      hourPointerSize: 5,
+      secondPointerStayBack: 10,
+      secondPointerHandsOff: 10,
+      minutePointerHandsOff: 26,
+      hourPointerHandsOff: 20,
+      clockBorderSize: 5,
+      markerDashedWidth: 1,
+      markerMinuteDashedSize: 1,
+      markerHourDashedSize: 5,
+      centralDotSize: 5,
+      textHourSpace: 5,
+      mainBorderColor: "grey",
+      mainBorderCoverColor: "white",
+      centralDotColor: "grey",
+      secondPointerColor: "red",
+      minutePointerColor: "black",
+      hourPointerColor: "black",
+      minDashColor: "rgb(0,0,0)",
+      hourDashColor: "rgb(0,0,0)",
+      hourTextColor: "rgb(0,0,0)",
+      titleColor: "rgb(0,0,0)",
+      title: "Theora Vilderson",
+      titleFont: "sans-serif",
+      hourFont: "monospace",
+    };
+    this.options.scaleSurface =
+      this.options.scaleWidth + this.options.scaleHeight;
+
     const canvasWidth =
+      this.userOption?.width ||
       +this.canvas.offsetWidth ||
       +this.canvas.width ||
       +this.canvas.clientWidth;
     const canvasHeight =
+      this.userOption?.height ||
       +this.canvas.offsetHeight ||
       +this.canvas.Height ||
       +this.canvas.clientHeight;
     if (!canvasWidth || !canvasHeight) {
-      this.canvas.width = 200;
-      this.canvas.height = 200;
-      this.height = 200;
-      this.width = 200;
+      this.width = this.canvas.width = this.options.scaleWidth;
+      this.height = this.canvas.height = this.options.scaleHeight;
     } else {
       this.height = canvasHeight;
       this.width = canvasWidth;
     }
+    // resize if the size isn't match with current size;
+    if (this.width !== this.canvas.clientWidth) {
+      this.canvas.width = this.width;
+    }
+    if (this.height !== this.canvas.clientHeight) {
+      this.canvas.height = this.height;
+    }
 
+    // if the sizes ar not equal then use the minimal size
+    if (~~this.height !== ~~this.width) {
+      this.height = this.width = Math.min(this.height, this.width);
+    }
+
+    // sizes
     this.surfaceSize = this.width + this.height;
-    this.idealFontSize = 15;
-    this.fontSize = this.sizeWithMin(this.surfaceSize / 30, 7);
-    this.space = this.surfaceSize / 40;
+    this.scaleTo = this.scaleBase(this.options.scaleSurface, this.surfaceSize);
+
+    this.fontSize = this.scaleTo(this.options.fontSize);
+    this.space = this.scaleTo(this.options.space);
     this.clockBorderCircleX = this.width / 2;
     this.clockBorderCircleY = this.height / 2;
     this.clockBorderCircleRadius = this.height / 2 - this.space;
     this.clockBorderMiniRadius = this.clockBorderCircleRadius / 1.5;
 
-    this.secondPointerSize = this.sizeWithMin(this.surfaceSize / 150, 0.2);
-    this.minutePointerSize = this.sizeWithMin(this.surfaceSize / 90, 0.3);
-    this.hourPointerSize = this.sizeWithMin(this.surfaceSize / 60, 0.5);
+    this.secondPointerSize = this.scaleTo(this.options.secondPointerSize);
+    this.minutePointerSize = this.scaleTo(this.options.minutePointerSize);
+    this.hourPointerSize = this.scaleTo(this.options.hourPointerSize);
 
-    this.secondPointerStayBack = this.surfaceSize / 40;
-    this.secondPointerHandsOff = this.surfaceSize / 40;
-    this.minutePointerHandsOff = this.surfaceSize / 25;
-    this.hourPointerHandsOff = this.surfaceSize / 20;
+    this.secondPointerStayBack = this.scaleTo(
+      this.options.secondPointerStayBack
+    );
+    this.secondPointerHandsOff = this.scaleTo(
+      this.options.secondPointerHandsOff
+    );
+    this.minutePointerHandsOff = this.scaleTo(
+      this.options.minutePointerHandsOff
+    );
+    this.hourPointerHandsOff = this.scaleTo(this.options.hourPointerHandsOff);
 
-    this.clockBorderSize = this.sizeWithMin(this.surfaceSize / 80, 1);
-    this.markerDashedWidth = this.sizeWithMin(this.surfaceSize / 400, 1);
-    this.markerMinuteDashedSize = this.sizeWithMin(this.surfaceSize / 400, 1);
-    this.markerHourDashedSize = this.sizeWithMin(this.surfaceSize / 80, 2);
+    this.clockBorderSize = this.scaleTo(this.options.clockBorderSize);
+    this.markerDashedWidth = this.scaleTo(this.options.markerDashedWidth);
+    this.markerMinuteDashedSize = this.scaleTo(
+      this.options.markerMinuteDashedSize
+    );
+    this.markerHourDashedSize = this.scaleTo(this.options.markerHourDashedSize);
+    this.centralDotSize = this.scaleTo(this.options.centralDotSize);
+    this.textHourSpace = this.scaleTo(this.options.textHourSpace);
 
+    // colors
+    this.mainBorderColor = this.options.mainBorderColor;
+    this.mainBorderCoverColor = this.options.mainBorderCoverColor;
+    this.centralDotColor = this.options.centralDotColor;
+    this.secondPointerColor = this.options.secondPointerColor;
+    this.minutePointerColor = this.options.minutePointerColor;
+    this.hourPointerColor = this.options.hourPointerColor;
+    this.minDashColor = this.options.minDashColor;
+    this.hourDashColor = this.options.hourDashColor;
+    this.hourTextColor = this.options.hourTextColor;
+    this.titleColor = this.options.titleColor;
+
+    // solid info
     this.ctx = this.canvas.getContext("2d");
     this.pauseClock = false;
-    this.title = "Theora Vilderson";
+    this.title = this.options.title;
+    this.titleFont = this.options.titleFont;
+    this.hourFont = this.options.hourFont;
 
     this.pointStepLen = 60;
     this.secondDashCount = 60;
     this.minuteDashCount = 60;
     this.hourDashCount = 12;
-    this.centralDotSize = this.sizeWithMin(this.surfaceSize / 80, 2);
-    this.textHourSpace =
-      (this.clockBorderCircleRadius -
-        this.clockBorderMiniRadius -
-        this.space * 2) /
-      2;
-    this.mainBorderColor = "grey";
-    this.mainBorderCoverColor = "white";
-    this.centralDotColor = "grey";
-    this.secondPointerColor = "red";
-    this.minutePointerColor = "black";
-    this.hourPointerColor = "black";
-    this.minDashColor = "rgb(0,0,0)";
-    this.hourDashColor = "rgb(0,0,0)";
-    this.hourTextColor = "rgb(0,0,0)";
-    this.titleColor = "rgb(0,0,0)";
-    this.id = this.randStr(9);
 
-    // this.startClock();
-    // this.drawClock();
+    this.id = this.randStr(9);
   }
-  sizeWithMin(size, min = 0) {
-    return size < min ? min : size;
+  scaleBase(pervScale = 200, nowScale = 300) {
+    return (size = 1) => {
+      return (size * nowScale) / pervScale;
+    };
   }
   randStr(len = 9) {
     return [..."aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ1234567890"]
@@ -278,7 +338,7 @@ class TimeirClock {
     clockBorderCircleRadius,
     ctx,
   }) {
-    // create main Clock Border
+    // create main Clock Border Cover
     ctx.beginPath();
     ctx.arc(
       clockBorderCircleX,
@@ -341,60 +401,6 @@ class TimeirClock {
       ctx,
     });
   }
-  // putHourTextNumber(info) {
-  //   const fontSize = this.fontSize;
-  //   const {
-  //     clockBorderCircleX: x,
-  //     clockBorderCircleY: y,
-  //     clockBorderMiniRadius: radius,
-  //     dashCount = 12,
-  //     dashSize = 8,
-  //     dashWidth = 5,
-  //     color = "rgb(0,0,0)",
-  //     ctx = this.ctx,
-  //     space,
-  //   } = info;
-  //   const circle = new DashedCircle({
-  //     ctx,
-  //     centerX: x,
-  //     centerY: y,
-  //     radius: radius + fontSize,
-  //     color,
-  //     dashSize,
-  //     dashCount,
-  //     dashWidth,
-  //   });
-
-  //   const previousColor = ctx.fillStyle;
-  //   ctx.fillStyle = color;
-  //   const previousFontSize = ctx.font;
-  //   ctx.font = `${fontSize}px sans-serif`;
-  //   const onFilter = ({ theta, radius, centerX, centerY, index }) => {
-  //     const cos = Math.cos(theta);
-  //     const sin = Math.sin(theta);
-  //     const txt = String(~~(index / 2) + 1);
-  //     const textSize = ctx.measureText(txt).width;
-
-  //     return {
-  //       cos,
-  //       sin,
-  //       x: cos * radius + centerX,
-  //       y: sin * radius + centerY,
-  //       ex: cos * (radius + space) + centerX - textSize / 2,
-  //       ey: sin * (radius + space / 2) + centerY + textSize / 2,
-  //     };
-  //   };
-  //   const points = circle.CalculateCirclePoints(onFilter);
-  //   const part1 = points.splice(points.length - 2, 3);
-  //   points.unshift(...part1);
-
-  //   for (let point = 0; point < points.length; point++) {
-  //     const { ex, ey } = points[point];
-  //     ctx.fillText(point + 1, ex + 0, ey);
-  //   }
-  //   ctx.font = previousFontSize;
-  //   ctx.fillStyle = previousColor;
-  // }
 
   putHourTextNumber(info) {
     const fontSize = this.fontSize;
@@ -403,8 +409,6 @@ class TimeirClock {
       clockBorderCircleY: y,
       clockBorderMiniRadius: radius,
       dashCount = 12,
-      dashSize = 8,
-      dashWidth = 5,
       color = "rgb(0,0,0)",
       ctx = this.ctx,
       space,
@@ -413,32 +417,34 @@ class TimeirClock {
     const previousColor = ctx.fillStyle;
     ctx.fillStyle = color;
     const previousFontSize = ctx.font;
-    ctx.font = `${fontSize}px monospace`;
+    ctx.font = `${fontSize}px ${this.hourFont}`;
 
     const points = this.createCircleDashed(
       {
         x,
         y,
-        radius: radius + 10,
+        radius: radius + this.scaleTo(10),
         dashCount,
-        dashSize: 5,
-        dashWidth: 1,
+        dashSize: this.scaleTo(5),
+        dashWidth: this.scaleTo(1),
         color: this.hourDashColor,
         ctx,
       },
-      true
+      true // this true means that just return points not draw anything
     );
-
+    // push 2 back because
+    // circle to start from 12 then 1 then 2  and ...!
     const part1 = points.splice(points.length - 2, 3);
     points.unshift(...part1);
 
-    for (let point = 0; point < points.length; point++) {
-      let { x, y, cos, sin, radius, centerX, centerY, alpha, index } =
-        points[point];
-      const text = point + 1 + "";
+    for (let pointIndex = 0; pointIndex < points.length; pointIndex++) {
+      // calcing the hour number position
+      const thePoint = points[pointIndex];
+      let { x, y, cos, sin, radius, centerX, centerY, alpha, index } = thePoint;
+      const text = pointIndex + 1 + "";
+      const textLen = text.length;
       const textSize = ctx.measureText(text).width / 2;
-      const multiNumberSize =
-        (text.length - 1) * (fontSize / (text.length + 1));
+      const multiNumberSize = (textLen - 1) * (fontSize / (textLen + 1));
       const theta = alpha * (index * 2);
       cos = Math.cos(theta);
       sin = Math.sin(theta);
@@ -446,6 +452,7 @@ class TimeirClock {
       y = sin * (radius + space) + centerY + (textSize - multiNumberSize);
       ctx.fillText(text, x, y);
     }
+    // resetStyle
     ctx.font = previousFontSize;
     ctx.fillStyle = previousColor;
   }
@@ -489,7 +496,11 @@ class TimeirClock {
       points.length
     );
     points.unshift(...part1);
+    // push quarter back because
+    // the circle will start at quarter forward!
+
     let currentPoint = points[~~pointStep];
+    // the second doesn't need the exact position !
     if (name !== "sec") currentPoint.reCalc(pointStep - ~~(points.length / 4));
 
     const { x, y, cos, sin } = currentPoint;
@@ -556,7 +567,7 @@ class TimeirClock {
     const previousColor = ctx.fillStyle;
     ctx.fillStyle = this.titleColor;
     const previousFontSize = ctx.font;
-    ctx.font = `${fontSize}px sans-serif`;
+    ctx.font = `${fontSize}px ${this.titleFont}`;
     const textSize = ctx.measureText(title).width / 2;
     ctx.fillText(
       title,
@@ -569,11 +580,13 @@ class TimeirClock {
 
   drawClock(date = new Date()) {
     if (this.id !== this.canvas.getAttribute("data-timerclock"))
+      // stop if an other constructor toke the control
       return this.stopClock();
     const currentPointDate = new Date();
     const betweenPointTime = +currentPointDate - +this.startPointDate;
 
     date = this.userTime ? new Date(+this.userTime + betweenPointTime) : date;
+    // before any draw happen
     this.onTick(date);
     const ctx = this.ctx;
 
@@ -595,24 +608,27 @@ class TimeirClock {
       ctx,
       date,
     };
+    const hourTextInfo = {
+      ...info,
+      space: this.textHourSpace,
+      color: this.hourTextColor,
+    };
+    const titleInfo = { ...info, title: this.title };
     this.createClockBorderCover(info);
     this.createClockBorder(info);
 
     this.createDashMarker(info);
 
     // create hours text
-    this.putHourTextNumber({
-      ...info,
-      space: this.textHourSpace,
-      color: this.hourTextColor,
-    });
+    this.putHourTextNumber(hourTextInfo);
 
-    this.putTitle({ ...info, title: this.title });
+    this.putTitle(titleInfo);
 
     this.createCentralDot(info);
     // create TimePointers
     this.createTimePointers(info);
 
+    // after every thin is done
     this.onTock(date);
   }
 }
