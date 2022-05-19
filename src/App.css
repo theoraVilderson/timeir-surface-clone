@@ -64,6 +64,8 @@ html {
   --dateBox-weekDays-color: #fff;
   --text-quote-bg-color: var(--bg-level-3);
   --text-quote-author-color: var(--link);
+  --selection-color: #fff;
+  --selection-bg: var(--primary);
 }
 @media (prefers-color-scheme: dark) {
   :root {
@@ -83,6 +85,8 @@ html {
     --text-level-2: var(--primary);
     --text-quote-bg-color: var(--primary);
     --text-quote-author-color: var(--primary);
+    --selection-color: #111;
+    --selection-bg: var(--primary);
   }
   body:not(.light) .themeToggle:not(.themeToggle--active) {
     --toggle-left: calc(100% - 15px);
@@ -116,6 +120,8 @@ html {
   --text-level-2: var(--primary);
   --text-quote-bg-color: var(--primary);
   --text-quote-author-color: var(--primary);
+  --selection-color: #111;
+  --selection-bg: var(--primary);
 }
 body {
   font-family: "IRANSansLight", Tahoma, Helvetica, "IRANSansBold", Arial,
@@ -156,6 +162,14 @@ body {
   --dateBox-weekDays-color: #fff;
   --text-quote-bg-color: var(--bg-level-3);
   --text-quote-author-color: var(--link);
+  --selection-color: #fff;
+  --selection-bg: var(--primary);
+}
+
+::selection,
+::-moz-selection {
+  background-color: var(--selection-bg);
+  color: var(--selection-color);
 }
 
 .primaryButton {

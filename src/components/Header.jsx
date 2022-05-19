@@ -1,22 +1,29 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import "./Header.css";
 import headerImg from "../imgs/headerImg.jpg";
 import headerLogo from "../imgs/headerLogo.svg";
+import { globalContext } from "../appContext";
+
 function Header() {
-  let matched = window.matchMedia("(prefers-color-scheme: dark)").matches;
-  const [theme, setTheme] = useState(matched ? "dark" : "light");
-  // const [theme, setTheme] = useState("light");
+  const { theme, setTheme } = useContext(globalContext);
+
   const isLight = theme === "light";
   const previousTheme = isLight ? "dark" : "light";
   const previousThemeElm = document.querySelector(`body.${previousTheme}`);
   if (previousThemeElm) document.body.classList.toggle(previousTheme, false);
   document.body.classList.toggle(theme, true);
+  const onChangeTheme = () => {
+    setTheme((currentTheme) => {
+      const theme = currentTheme === "light" ? "dark" : "light";
+      return theme;
+    });
+  };
   return (
     <header id="header" style={{ backgroundImage: `url("${headerImg}")` }}>
       <div className="header__box">
         <img src={headerLogo} alt="Logo" className="logo" />
         <div
-          onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+          onClick={onChangeTheme}
           className={"themeToggle" + (!isLight ? " themeToggle--active" : "")}
         >
           <button className={"themeToggle__toggler"}>

@@ -1,8 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { globalContext } from "../appContext";
 import Clock from "./timeirClock";
 function TimeirClock({ date: userDate, amPm = false, ...props }) {
   const canvasRef = useRef(null);
   const canvas = <canvas ref={canvasRef} width={200} height={200} />;
+  const { theme } = useContext(globalContext);
+
   const [date, setDate] = useState(userDate);
   const [realSec, realMin, realHour] = [
     date.getSeconds(),
@@ -18,13 +21,44 @@ function TimeirClock({ date: userDate, amPm = false, ...props }) {
     function onTick(date) {
       setDate(date);
     }
-    const clock = new Clock({
+    const getThemeColor = (colorName = "") => {
+      colorName = colorName.startsWith("--") ? colorName : "--" + colorName;
+      const [darkElm, lightElm] = [
+        ...document.querySelectorAll("body.dark, body.light"),
+      ];
+      const targetElm = darkElm || lightElm || document.documentElement;
+      return window.getComputedStyle(targetElm).getPropertyValue(colorName);
+    };
+    let colors = {};
+
+    if (theme === "dark") {
+      colors = {
+        mainBorderColor: getThemeColor("bg"),
+        mainBorderCoverColor: getThemeColor("bg-level-2"),
+        centralDotColor: getThemeColor("primary"),
+        secondPointerColor: getThemeColor("primary"),
+        minutePointerColor: getThemeColor("bg-level-3"),
+        hourPointerColor: getThemeColor("bg-level-3"),
+        minDashColor: getThemeColor("text"),
+        hourDashColor: getThemeColor("text"),
+        hourTextColor: getThemeColor("danger"),
+        titleColor: getThemeColor("text"),
+      };
+    }
+
+    console.log(getThemeColor("primary"));
+    let clock = new Clock({
       element: canvasRef.current,
       onTick,
-      time: userDate, //yo can use optional Date
+      time: userDate, //you can use optional Date
+      options: { ...colors },
     });
     clock.startClock();
-  }, [userDate]);
+    return () => {
+      clock.stopClock();
+      clock = null;
+    };
+  }, [userDate, theme]);
   return (
     <div {...props} style={{ width: "200px", fontFamily: "sans-serif" }}>
       {canvas}

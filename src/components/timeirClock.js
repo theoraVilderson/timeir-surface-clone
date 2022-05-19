@@ -83,8 +83,8 @@ class TimeirClock {
     this.startPointDate = new Date();
     this.onTick = onTick;
     this.onTock = onTock;
-    this.init();
     this.userOption = options;
+    this.init();
   }
   init() {
     this.options = {
@@ -93,12 +93,12 @@ class TimeirClock {
       fontSize: 15,
       space: 10,
       secondPointerSize: 2,
-      minutePointerSize: 3,
-      hourPointerSize: 5,
+      minutePointerSize: 5,
+      hourPointerSize: 7,
       secondPointerStayBack: 10,
       secondPointerHandsOff: 10,
-      minutePointerHandsOff: 26,
-      hourPointerHandsOff: 20,
+      minutePointerHandsOff: 20,
+      hourPointerHandsOff: 26,
       clockBorderSize: 5,
       markerDashedWidth: 1,
       markerMinuteDashedSize: 1,
@@ -122,6 +122,8 @@ class TimeirClock {
     this.options.scaleSurface =
       this.options.scaleWidth + this.options.scaleHeight;
 
+    this.options = Object.assign(this.options, this.userOption);
+    console.log(this.options);
     const canvasWidth =
       this.userOption?.width ||
       +this.canvas.offsetWidth ||

@@ -36,9 +36,20 @@ export function DateBoxItem({
   );
 }
 export function YearOption() {
+  const [year, setYear] = useState(1000);
+  function onInp(e) {
+    const data = e.target.value.replace(/\D/gi, "");
+    const year =
+      data.length < 4 ? 1000 : data.length > 4 ? data.slice(0, 4) : data;
+    setYear(year);
+  }
+  function onChange(e) {
+    const data = e.target.value.replace(/\D/gi, "");
+    setYear(data);
+  }
   return (
     <div className="dateBox___yearOption">
-      <input type="number" max={9999} />
+      <input type="text" value={year} onChange={onChange} onBlur={onInp} />
       <button>برو به سال</button>
     </div>
   );
