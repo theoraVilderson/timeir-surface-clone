@@ -157,6 +157,7 @@
 .dateBox___monthOption {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  direction: rtl;
 }
 .dateBox___monthOption > button {
   border: none;
