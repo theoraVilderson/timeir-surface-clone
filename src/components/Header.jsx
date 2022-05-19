@@ -21,7 +21,9 @@ function Header() {
   return (
     <header id="header" style={{ backgroundImage: `url("${headerImg}")` }}>
       <div className="header__box">
-        <img src={headerLogo} alt="Logo" className="logo" />
+        <a href="/" className="logo">
+          <img src={headerLogo} alt="Logo" />
+        </a>
         <div
           onClick={onChangeTheme}
           className={"themeToggle" + (!isLight ? " themeToggle--active" : "")}
