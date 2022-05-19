@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { globalContext } from "../appContext";
-import Clock from "./timeirClock";
+import Clock from "./timeirClockCore";
 function TimeirClock({ date: userDate, amPm = false, ...props }) {
   const canvasRef = useRef(null);
   const canvas = <canvas ref={canvasRef} width={200} height={200} />;
@@ -46,7 +46,6 @@ function TimeirClock({ date: userDate, amPm = false, ...props }) {
       };
     }
 
-    console.log(getThemeColor("primary"));
     let clock = new Clock({
       element: canvasRef.current,
       onTick,
