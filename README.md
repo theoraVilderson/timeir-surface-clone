@@ -1,7 +1,6 @@
 #Site DEMO
 
 [timeir-clone](https://timeir-surface-clone.web.app/ "timeir-clone")
-[target-site](https://time.ir/ "target-site")
 
 ## Contact
 
